@@ -1,0 +1,98 @@
+baseURL = "https://nieradko.com"
+languageCode = "pl-PL"
+title = "Stanisław Nieradko"
+theme = "PaperMod"
+
+enableInlineShortcodes = true
+enableRobotsTXT = true
+enableEmoji = true
+
+[minify]
+    disableXML = true
+
+[languages]
+    [languages.en]
+        languageName = "English"
+        weight = 1
+            [[languages.en.menu.main]]
+                name = "Posts"
+                url = "/posts"
+                weight = 5
+            [[languages.en.menu.main]]
+                name = "Projects"
+                url = "/projects"
+                weight = 10
+            [[languages.en.menu.main]]
+                name = "About Me"
+                url = "/about"
+                weight = 15
+            [[languages.en.menu.main]]
+                name = "🔎 Search"
+                url = "/search"
+                weight = 999
+        [languages.en.taxonomies]
+            category = "category"
+            tag = "tags"
+            series = "series"
+    [languages.pl]
+        languageName = "Polski"
+        weight = 1
+        [languages.pl.profileMode]
+            enabled = true
+            subtitle = "18 letni programista-samouk."
+            imageUrl = "/avatar.jpg"
+        [[languages.pl.menu.main]]
+            name = "Posty"
+            url = "/posts"
+            weight = 5
+        [[languages.pl.menu.main]]
+            name = "Projekty"
+            url = "/projects"
+            weight = 10
+        [[languages.pl.menu.main]]
+            name = "O mnie"
+            url = "/about"
+            weight = 15
+        [[languages.pl.menu.main]]
+            name = "🔎 Szukaj"
+            url = "/search"
+            weight = 999
+        [languages.pl.taxonomies]
+            category = "category"
+            tag = "tags"
+            series = "series"
+        
+[params]
+    keywords = ["blog", "KanarekLife", "Stanisław Nieradko"]
+    env = "production"
+    author = "Stanisław Nieradko"
+    description = "Welcome to mine portfolio / blog website."
+    defaultTheme = "auto"
+    displayFullLangName = true
+    showReadingTime = true
+    showBreadCrumbs = true
+    showToc = true
+    showPostNavLinks = true
+    [params.profileMode]
+        enabled = true
+        subtitle = "Self-Teaching full-stack developer using C# and TypeScript."
+        imageUrl = "/avatar.jpg"
+    [params.homeInfoParams]
+        [[params.socialIcons]]
+            name = "Github"
+            url = "https://github.com/KanarekLife"
+        [[params.socialIcons]]
+            name = "Website"
+            url = "https://nieradko.com"
+        [[params.socialIcons]]
+            name = "Rss"
+            url = "/index.xml"
+    [params.label]
+        icon = "/avatar.jpg"
+        iconHeight = 35
+    [params.assets]
+        favicon = "/favicon.ico"
+
+
+[outputs]
+    home = ['HTML', 'RSS', 'JSON']
