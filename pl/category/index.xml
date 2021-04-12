@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Kategorie on Stanisław Nieradko</title>
-    <link>nieradko.com/pl/category/</link>
+    <link>www.nieradko.com/pl/category/</link>
     <description>Recent content in Kategorie on Stanisław Nieradko</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>pl-PL</language><atom:link href="nieradko.com/pl/category/index.xml" rel="self" type="application/rss+xml" />
+    <language>pl-PL</language><atom:link href="www.nieradko.com/pl/category/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>

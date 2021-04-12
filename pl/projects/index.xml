@@ -2,9 +2,9 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projekty on Stanisław Nieradko</title>
-    <link>nieradko.com/pl/projects/</link>
+    <link>www.nieradko.com/pl/projects/</link>
     <description>Recent content in Projekty on Stanisław Nieradko</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>pl-PL</language><atom:link href="nieradko.com/pl/projects/index.xml" rel="self" type="application/rss+xml" />
+    <language>pl-PL</language><atom:link href="www.nieradko.com/pl/projects/index.xml" rel="self" type="application/rss+xml" />
   </channel>
 </rss>
