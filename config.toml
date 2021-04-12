@@ -1,4 +1,4 @@
-baseURL = "https://nieradko.com"
+baseURL = "https://www.nieradko.com"
 languageCode = "pl-PL"
 title = "Stanisław Nieradko"
 theme = "PaperMod"
@@ -9,6 +9,7 @@ enableEmoji = true
 
 [minify]
     disableXML = true
+    minifyOutput = true
 
 [languages]
     [languages.en]
