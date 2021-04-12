@@ -2,88 +2,88 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>www.nieradko.com/category/</loc>
+    <loc>https://www.nieradko.com/category/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="www.nieradko.com/pl/category/"
+                href="https://www.nieradko.com/pl/category/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="www.nieradko.com/category/"
+                href="https://www.nieradko.com/category/"
                 />
   </url><url>
-    <loc>www.nieradko.com/posts/</loc>
+    <loc>https://www.nieradko.com/posts/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="www.nieradko.com/pl/posts/"
+                href="https://www.nieradko.com/pl/posts/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="www.nieradko.com/posts/"
+                href="https://www.nieradko.com/posts/"
                 />
   </url><url>
-    <loc>www.nieradko.com/projects/</loc>
+    <loc>https://www.nieradko.com/projects/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="www.nieradko.com/pl/projects/"
+                href="https://www.nieradko.com/pl/projects/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="www.nieradko.com/projects/"
+                href="https://www.nieradko.com/projects/"
                 />
   </url><url>
-    <loc>www.nieradko.com/search/</loc>
+    <loc>https://www.nieradko.com/search/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="www.nieradko.com/pl/search/"
+                href="https://www.nieradko.com/pl/search/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="www.nieradko.com/search/"
+                href="https://www.nieradko.com/search/"
                 />
   </url><url>
-    <loc>www.nieradko.com/series/</loc>
+    <loc>https://www.nieradko.com/series/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="www.nieradko.com/pl/series/"
+                href="https://www.nieradko.com/pl/series/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="www.nieradko.com/series/"
+                href="https://www.nieradko.com/series/"
                 />
   </url><url>
-    <loc>www.nieradko.com/</loc>
+    <loc>https://www.nieradko.com/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="www.nieradko.com/pl/"
+                href="https://www.nieradko.com/pl/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="www.nieradko.com/"
+                href="https://www.nieradko.com/"
                 />
   </url><url>
-    <loc>www.nieradko.com/tags/</loc>
+    <loc>https://www.nieradko.com/tags/</loc>
     <xhtml:link
                 rel="alternate"
                 hreflang="pl"
-                href="www.nieradko.com/pl/tags/"
+                href="https://www.nieradko.com/pl/tags/"
                 />
     <xhtml:link
                 rel="alternate"
                 hreflang="en"
-                href="www.nieradko.com/tags/"
+                href="https://www.nieradko.com/tags/"
                 />
   </url>
 </urlset>
