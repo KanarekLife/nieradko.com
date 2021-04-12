@@ -14,26 +14,6 @@ enableEmoji = true
     [languages.en]
         languageName = "English"
         weight = 1
-            [[languages.en.menu.main]]
-                name = "Posts"
-                url = "/posts"
-                weight = 5
-            [[languages.en.menu.main]]
-                name = "Projects"
-                url = "/projects"
-                weight = 10
-            [[languages.en.menu.main]]
-                name = "About Me"
-                url = "/about"
-                weight = 15
-            [[languages.en.menu.main]]
-                name = "🔎 Search"
-                url = "/search"
-                weight = 999
-        [languages.en.taxonomies]
-            category = "category"
-            tag = "tags"
-            series = "series"
     [languages.pl]
         languageName = "Polski"
         weight = 1
@@ -61,7 +41,29 @@ enableEmoji = true
             category = "category"
             tag = "tags"
             series = "series"
-        
+
+[menu]
+    [[menu.main]]
+        name = "Posts"
+        url = "/posts"
+        weight = 5
+    [[menu.main]]
+        name = "Projects"
+        url = "/projects"
+         weight = 10
+    [[menu.main]]
+        name = "About Me"
+        url = "/about"
+        weight = 15
+    [[menu.main]]
+        name = "🔎 Search"
+        url = "/search"
+        weight = 999
+
+[taxonomies]
+    category = "category"
+    tag = "tags"
+    series = "series"
 [params]
     keywords = ["blog", "KanarekLife", "Stanisław Nieradko"]
     env = "production"
