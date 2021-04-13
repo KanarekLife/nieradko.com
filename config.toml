@@ -10,7 +10,10 @@ enableEmoji = true
 [minify]
     disableXML = true
     minifyOutput = true
-
+[markup]
+    [markup.goldmark]
+        [markup.goldmark.renderer]
+            unsafe = true
 [languages]
     [languages.en]
         languageName = "English"
