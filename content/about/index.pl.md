@@ -2,7 +2,6 @@
 title: O mnie
 slug: /about
 date: 2021-04-11T09:40:57.000Z
-draft: true
 hidemeta: true
 showtoc: false
 showBreadCrumbs: false
