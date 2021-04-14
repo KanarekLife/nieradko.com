@@ -6,6 +6,18 @@
     <description>Recent content on Stanisław Nieradko</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language><atom:link href="https://www.nieradko.com/pl/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>O mnie</title>
+      <link>https://www.nieradko.com/pl/about/</link>
+      <pubDate>Sun, 11 Apr 2021 09:40:57 +0000</pubDate>
+      
+      <guid>https://www.nieradko.com/pl/about/</guid>
+      <description>Siema ! Witaj, nazywam się Stanisław Nieradko.
+Jestem uczniem 2 klasy liceum w Gdańsku.
+Odkąd pamiętam moją pasją są nowoczesne technologie i informatyka. Dzięki tym zainteresowaniom miałem styczność z wieloma aspektami tego hobby, zaczynając od składania i konfiguracji komputerów kończąc na zakładaniu i konfiguracji serwerów. Moją największą pasją zostało mimo to programowanie.
+Narzędzia  C#  ok. 4️⃣ lata nauki głównie ASP.Net oraz aplikacje konsolowe Przykładowe projekty:  JedzenioPlanner eru Backend do WokLearner&amp;rsquo;a Bot do discord&amp;rsquo;a SuperGamblino     👷‍♂️ WIP  </description>
+    </item>
+    
     
   </channel>
 </rss>

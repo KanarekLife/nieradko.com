@@ -6,6 +6,18 @@
     <description>Recent content on Stanisław Nieradko</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>pl-PL</language><atom:link href="https://www.nieradko.com/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>About</title>
+      <link>https://www.nieradko.com/about/</link>
+      <pubDate>Sun, 11 Apr 2021 09:40:57 +0000</pubDate>
+      
+      <guid>https://www.nieradko.com/about/</guid>
+      <description>Hi ! Hello, my name is Stanisław Nieradko.
+I&amp;rsquo;m currently a high-school student, living in Gdańsk, Poland.
+Since I rembember I&amp;rsquo;m passionate about new technologies and IT. Thanks to that, I have experience varying from building and reparing computers to setting up and configuring servers. However, despite how interesting these things were, the most interesting for me is programming.
+Tools  C#  around 4️⃣ years of learning mostly ASP.Net and command line apps Sample Projects:  JedzenioPlanner eru Backend to WokLearner Discord Bot SuperGamblino     👷‍♂️ WIP  </description>
+    </item>
+    
     
   </channel>
 </rss>
