@@ -1,0 +1,17 @@
+---
+export interface Props {
+    social: {
+        type: string;
+        url: string;
+        name: string;
+        icon: string;
+    };
+}
+
+const { social } = Astro.props;
+---
+
+<a href={social.url} target="_blank" rel="noopener noreferrer" class="flex gap-2 items-center">
+    <Fragment set:html={social.icon} />
+    <span class="hidden md:block">{social.name}</span>
+</a>

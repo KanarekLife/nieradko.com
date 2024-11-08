@@ -1,0 +1,46 @@
+---
+import config from '@config';
+import Header from '@components/Header.astro';
+import Footer from '@components/Footer.astro';
+
+export interface Props {
+    title?: string;
+}
+
+function getTitle(): string {
+    return Astro.props.title ?? config.title;
+}
+---
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <meta name="viewport" content="width=device-width" />
+        <meta name="generator" content={Astro.generator} />
+        <title>{getTitle()}</title>
+    </head>
+    <body class="bg-background text-normal flex flex-col">
+        <Header />
+        <main class="flex-1 2xl:w-[1536px] 2xl:mx-auto">
+            <slot />
+        </main>
+        <Footer />
+    </body>
+</html>
+
+<style is:global>
+    @tailwind base;
+    @layer base {
+        html, body {
+            @apply h-full;
+        }
+
+        a {
+            @apply text-primary hover:text-primaryhover;
+        }
+    }
+
+    @tailwind components;
+    @tailwind utilities;
+</style>

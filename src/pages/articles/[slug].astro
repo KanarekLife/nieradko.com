@@ -1,0 +1,61 @@
+---
+import config from '@config';
+import PageLayout from '@layouts/PageLayout.astro';
+import type { CollectionEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
+import dayjs from 'dayjs';
+import CalendarIcon from '@assets/icons/calendar.svg?raw';
+import UserIcon from "@assets/icons/user.svg?raw";
+import { Image } from "astro:assets";
+
+export interface Props {
+    article: CollectionEntry<'articles'>;
+}
+
+export async function getStaticPaths() {
+    const allArticles = await getCollection('articles', (article) => {
+        return article.data.published || import.meta.env.DEV
+    });
+
+    return allArticles.map((article) => ({
+        params: {
+            slug: article.slug
+        },
+        props: {
+            article
+        }
+    }));
+}
+
+function getTitle(): string {
+    return `${config.title} | ${article.data.title}`;
+}
+
+const { article } = Astro.props;
+const { Content } = await article.render();
+---
+
+<PageLayout title={getTitle()}>
+    <a href="/articles" class="px-4">Back to articles</a>
+    <article class="px-4 pb-8 mt-4">
+        <header class="relative h-96 w-full flex flex-col justify-end">
+            <Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
+            <div class="p-4 bg-neutral-900/70">
+                <h1 class="text-4xl">{article.data.title}</h1>
+                <div class="pt-8">
+                    <p class="flex gap-2">
+                        <Fragment set:html={CalendarIcon} />
+                        <time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}</time>
+                    </p>
+                    <p class="pt-2 flex gap-2">
+                        <Fragment set:html={UserIcon} />
+                        <span>{config.title}</span>
+                    </p>
+                </div>
+            </div>
+        </header>
+        <main class="pt-4">
+            <Content />
+        </main>
+    </article>
+</PageLayout>

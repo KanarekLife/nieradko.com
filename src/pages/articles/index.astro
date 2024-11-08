@@ -1,0 +1,48 @@
+---
+import config from "@config";
+import PageLayout from "@layouts/PageLayout.astro";
+import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
+import dayjs from 'dayjs';
+import CalendarIcon from '@assets/icons/calendar.svg?raw';
+import UserIcon from "@assets/icons/user.svg?raw";
+
+const allArticles = await getCollection('articles', (article) => {
+    return article.data.published || import.meta.env.DEV
+}).then((articles) => articles.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()));
+
+function getTitle(): string {
+    return `${config.title} | Articles`;
+}
+---
+
+<PageLayout title={getTitle()}>
+    <h1 class="text-4xl px-4 py-8">Articles</h1>
+    <ul class="px-4 pb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        {allArticles.map((article) => (
+            <li>
+                <article class="relative h-96 w-full flex flex-col justify-end">
+                    <Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
+                    <div class="p-4 bg-neutral-900/70">
+                        <h2 class="text-2xl font-semibold"><a href={article.slug}>{article.data.title}</a></h2>
+                        <div class="flex pt-4 justify-between items-center">
+                            <div>
+                                <p class="flex gap-2">
+                                    <Fragment set:html={CalendarIcon} />
+                                    <time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}</time>
+                                </p>
+                                <p class="pt-2 flex gap-2">
+                                    <Fragment set:html={UserIcon} />
+                                    <span>{config.title}</span>
+                                </p>
+                            </div>
+                            <div class="flex justify-end">
+                                <a href={`/articles/${article.slug}`} class="px-4 py-2 text-primarybg bg-primary hover:bg-primaryhover hover:text-primarybg rounded-md">Read more</a>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </li>
+        ))}
+    </ul>
+</PageLayout>

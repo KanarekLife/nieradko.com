@@ -1,0 +1,61 @@
+---
+import config from "@config";
+---
+
+<header class="p-4 flex flex-col md:flex-row md:items-center justify-between">
+    <div class="flex justify-between items-center">
+        <section>
+            <a href="/" class="text-3xl md:text-4xl">{config.title}</a>
+        </section>
+        <button id="mobileMenuToggler" class="burger w-10 h-8 flex flex-col items-center justify-between md:hidden">
+            <span class="w-full h-1/5 block bg-normal"></span>
+            <span class="w-full h-1/5 block bg-normal"></span>
+            <span class="w-full h-1/5 block bg-normal"></span>
+        </button>
+    </div>
+    <nav id="navbarMenu" class="hidden py-4 md:block md:py-0">
+        <ul class="flex flex-col gap-2 md:flex-row md:gap-4">
+            <li><a href="/">Home</a></li>
+            <li><a href="/articles/">Articles</a></li>
+            <li><a href="/contact/">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<script>
+    const burgerButton = document.querySelector('#mobileMenuToggler');
+    const navbarMenu = document.querySelector('#navbarMenu');
+
+    window.addEventListener('resize', () => {
+        if (window.innerWidth >= 768) {
+            navbarMenu?.classList.add('hidden');
+            burgerButton?.classList.remove('active');
+        }
+    });
+
+    burgerButton?.addEventListener('click', () => {
+        navbarMenu?.classList.toggle('hidden');
+        burgerButton?.classList.toggle('active');
+    });
+</script>
+
+<style is:global>
+    @tailwind components;
+    @layer components {
+        .burger > span {
+            @apply transition ease-in-out;
+        }
+
+        .burger.active > span:nth-child(1) {
+            transform: translateY(200%) rotate(45deg);
+        }
+
+        .burger.active > span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .burger.active > span:nth-child(3) {
+            transform: translateY(-200%) rotate(-45deg);
+        }
+    }
+</style>
