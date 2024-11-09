@@ -1,0 +1,36 @@
+---
+import Image from "astro/components/Image.astro";
+import PageLayout from "@layouts/PageLayout.astro";
+import ProfilePicture from '@assets/images/profile.png';
+---
+
+<PageLayout title="Contact">
+    <h1 class="text-4xl px-4 py-8">Contact</h1>
+    <div class="px-4 pb-8 flex flex-col-reverse md:flex-row gap-8">
+        <div class="flex flex-col gap-4 content">
+            <p>I'm currently studying full-time Computer Science BSc at the <a href="https://pg.edu.pl/en" target="_blank">Gdańsk University of Technology</a> and working part-time as a software engineer at <a href="https://aspiresys.com/" target="_blank">Aspire Systems</a>.
+                Although I'm not actively looking for new opportunities, I'm always open to interesting projects and collaborations.</p>
+            <p>Feel free to reach out to me via email or LinkedIn:</p>
+            <ul>
+                <li>Email: <a href="mailto:stanislaw@nieradko.com" target="_blank">stanislaw@nieradko.com</a></li>
+                <li>LinkedIn: <a href="https://linkedin.com/in/stanislaw-nieradko/" target="_blank">Stanisław Nieradko</a></li>
+            </ul>
+            <p>I'm looking forward to hearing from you!</p>
+
+            <h2>CV</h2>
+            <p>You can download my CV in PDF format from <a href="https://github.com/KanarekLife/CV/releases/latest/download/cv.pdf" download>here</a>.</p>
+        </div>
+        <figure class="flex flex-col gap-2 items-center">
+            <Image src={ProfilePicture} width="384" alt="Me (Stanisław Nieradko)" class="rounded-lg" />
+            <figcaption>My picture (Stanisław Nieradko)</figcaption>
+        </figure>
+    </div>
+</PageLayout>
+
+<style>
+    .content {
+        h2 {
+            @apply text-2xl mt-2;
+        }
+    }
+</style>
