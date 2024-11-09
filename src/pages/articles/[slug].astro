@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import CalendarIcon from '@assets/icons/calendar.svg?raw';
 import UserIcon from "@assets/icons/user.svg?raw";
 import { Image } from "astro:assets";
+import ArrowLeftIcon from '@assets/icons/arrow-left.svg?raw';
 
 export interface Props {
     article: CollectionEntry<'articles'>;
@@ -36,7 +37,7 @@ const { Content } = await article.render();
 ---
 
 <PageLayout title={getTitle()}>
-    <a href="/articles" class="px-4">Back to articles</a>
+    <a href="/articles" class="px-4 flex gap-2"><Fragment set:html={ArrowLeftIcon} />Back to articles</a>
     <article class="px-4 pb-8 mt-4">
         <header class="relative h-96 w-full flex flex-col justify-end">
             <Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />

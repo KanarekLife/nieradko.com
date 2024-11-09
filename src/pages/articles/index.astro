@@ -3,46 +3,113 @@ import config from "@config";
 import PageLayout from "@layouts/PageLayout.astro";
 import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
-import dayjs from 'dayjs';
-import CalendarIcon from '@assets/icons/calendar.svg?raw';
+import dayjs from "dayjs";
+import CalendarIcon from "@assets/icons/calendar.svg?raw";
 import UserIcon from "@assets/icons/user.svg?raw";
+import GridIcon from "@assets/icons/grid.svg?raw";
 
-const allArticles = await getCollection('articles', (article) => {
-    return article.data.published || import.meta.env.DEV
+const allArticles = await getCollection("articles", (article) => {
+	return article.data.published || import.meta.env.DEV;
 }).then((articles) => articles.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()));
 
 function getTitle(): string {
-    return `${config.title} | Articles`;
+	return `${config.title} | Articles`;
 }
 ---
 
 <PageLayout title={getTitle()}>
-    <h1 class="text-4xl px-4 py-8">Articles</h1>
-    <ul class="px-4 pb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-        {allArticles.map((article) => (
-            <li>
-                <article class="relative h-96 w-full flex flex-col justify-end">
-                    <Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
-                    <div class="p-4 bg-neutral-900/70">
-                        <h2 class="text-2xl font-semibold"><a href={article.slug}>{article.data.title}</a></h2>
-                        <div class="flex pt-4 justify-between items-center">
-                            <div>
-                                <p class="flex gap-2">
-                                    <Fragment set:html={CalendarIcon} />
-                                    <time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}</time>
-                                </p>
-                                <p class="pt-2 flex gap-2">
-                                    <Fragment set:html={UserIcon} />
-                                    <span>{config.title}</span>
-                                </p>
-                            </div>
+	<div class="flex justify-between items-center">
+        <h1 class="text-4xl px-4 py-8">Articles</h1>
+        <label class="px-4 inline-flex items-center cursor-pointer">
+            <input id="gridDisplayCheckbox" type="checkbox" value="" class="sr-only peer" />
+            <div class="relative w-11 h-6 rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+            <span class="ml-4"><Fragment set:html={GridIcon} /></span>
+        </label>
+    </div>
+
+	<ul class="px-4 pb-8 flex flex-col gap-16 articles-list">
+		{
+			allArticles.map((article) => (
+				<li>
+					<article class="flex flex-col md:flex-row gap-8">
+						<Image src={article.data.cover} alt={article.data.title} class="w-full md:w-64 object-cover" />
+						<div class="w-full">
+							<h2 class="text-2xl font-semibold">
+								<a href={article.slug}>{article.data.title}</a>
+							</h2>
+							<p class="mt-4 flex gap-2">
+								<Fragment set:html={CalendarIcon} />
+								<time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>
+									{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}
+								</time>
+							</p>
+							<p class="pt-2 flex gap-2">
+								<Fragment set:html={UserIcon} />
+								<span>{config.title}</span>
+							</p>
                             <div class="flex justify-end">
-                                <a href={`/articles/${article.slug}`} class="px-4 py-2 text-primarybg bg-primary hover:bg-primaryhover hover:text-primarybg rounded-md">Read more</a>
-                            </div>
-                        </div>
-                    </div>
-                </article>
-            </li>
-        ))}
-    </ul>
+								<a href={`/articles/${article.slug}`} class="px-4 py-2 text-primarybg bg-primary hover:bg-primaryhover hover:text-primarybg rounded-md">
+									Read more
+								</a>
+							</div>
+						</div>
+					</article>
+				</li>
+			))
+		}
+	</ul>
+    
+	<ul class="hidden px-4 pb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 articles-grid">
+		{
+			allArticles.map((article) => (
+				<li>
+					<article class="relative h-96 w-full flex flex-col justify-end">
+						<Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
+						<div class="p-4 bg-neutral-900/70">
+							<h2 class="text-2xl font-semibold">
+								<a href={article.slug}>{article.data.title}</a>
+							</h2>
+							<div class="flex pt-4 justify-between items-center">
+								<div>
+									<p class="flex gap-2">
+										<Fragment set:html={CalendarIcon} />
+										<time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>
+											{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}
+										</time>
+									</p>
+									<p class="pt-2 flex gap-2">
+										<Fragment set:html={UserIcon} />
+										<span>{config.title}</span>
+									</p>
+								</div>
+								<div class="flex justify-end">
+									<a href={`/articles/${article.slug}`} class="px-4 py-2 text-primarybg bg-primary hover:bg-primaryhover hover:text-primarybg rounded-md">
+										Read more
+									</a>
+								</div>
+							</div>
+						</div>
+					</article>
+				</li>
+			))
+		}
+	</ul>
 </PageLayout>
+
+<script>
+    const gridDisplayCheckbox = document.getElementById("gridDisplayCheckbox");
+    const articlesList = document.querySelector(".articles-list");
+    const articlesGrid = document.querySelector(".articles-grid");
+
+    if (window.localStorage.getItem('gridDisplay') === 'true') {
+        articlesList?.classList.add("hidden");
+        articlesGrid?.classList.remove("hidden");
+        (gridDisplayCheckbox as HTMLInputElement).checked = true;
+    }
+
+    gridDisplayCheckbox?.addEventListener('click', () => {
+        articlesList?.classList.toggle("hidden");
+        articlesGrid?.classList.toggle("hidden");
+        window.localStorage.setItem('gridDisplay', articlesGrid?.classList.contains("hidden") ? 'false' : 'true');
+    });
+</script>

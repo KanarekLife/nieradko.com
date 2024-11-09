@@ -1,5 +1,9 @@
 ---
 import config from "@config";
+
+function isActive(path: string): boolean {
+    return Astro.url.pathname === path;
+}
 ---
 
 <header class="p-4 flex flex-col md:flex-row md:items-center justify-between">
@@ -15,9 +19,11 @@ import config from "@config";
     </div>
     <nav id="navbarMenu" class="hidden py-4 md:block md:py-0">
         <ul class="flex flex-col gap-2 md:flex-row md:gap-4">
-            <li><a href="/">Home</a></li>
-            <li><a href="/articles/">Articles</a></li>
-            <li><a href="/contact/">Contact</a></li>
+            { config.menu.map((entry) => (
+                <li>
+                    <a href={entry.url} class:list={[{'text-normal pointer-events-none underline': isActive(entry.url)}]}>{entry.name}</a>
+                </li>
+            ))}
         </ul>
     </nav>
 </header>
