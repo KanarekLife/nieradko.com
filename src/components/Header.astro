@@ -2,7 +2,11 @@
 import config from "@config";
 
 function isActive(path: string): boolean {
-    return Astro.url.pathname === path;
+    if (path === '/') {
+        return Astro.url.pathname === '/';
+    }
+
+    return Astro.url.pathname.startsWith(path);
 }
 ---
 
@@ -21,7 +25,7 @@ function isActive(path: string): boolean {
         <ul class="flex flex-col gap-2 md:flex-row md:gap-4">
             { config.menu.map((entry) => (
                 <li>
-                    <a href={entry.url} class:list={[{'text-normal pointer-events-none underline': isActive(entry.url)}]}>{entry.name}</a>
+                    <a href={entry.url} class:list={[{'text-normal pointer-events-none font-semibold': isActive(entry.url)}]}>{entry.name}</a>
                 </li>
             ))}
         </ul>

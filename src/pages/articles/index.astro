@@ -7,10 +7,21 @@ import dayjs from "dayjs";
 import CalendarIcon from "@assets/icons/calendar.svg?raw";
 import UserIcon from "@assets/icons/user.svg?raw";
 import GridIcon from "@assets/icons/grid.svg?raw";
+import type { CollectionEntry } from "astro:content";
+import ClockIcon from "@assets/icons/clock.svg?raw";
 
-const allArticles = await getCollection("articles", (article) => {
-	return article.data.published || import.meta.env.DEV;
-}).then((articles) => articles.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()));
+function filterArticles(article: CollectionEntry<'articles'>): boolean {
+	return !!article.data.published || import.meta.env.DEV;
+}
+
+const allArticles = await getCollection('articles', filterArticles)
+	.then((articles) => articles.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()))
+	.then((articles) => Promise.all(
+		articles.map(async (article) => {
+			const { remarkPluginFrontmatter } = await article.render();
+			return { ...article, remarkPluginFrontmatter };
+		})
+	));
 
 function getTitle(): string {
 	return `${config.title} | Articles`;
@@ -35,13 +46,17 @@ function getTitle(): string {
 						<Image src={article.data.cover} alt={article.data.title} class="w-full md:w-64 object-cover" />
 						<div class="w-full">
 							<h2 class="text-2xl font-semibold">
-								<a href={article.slug}>{article.data.title}</a>
+								<a href={`/articles/${article.slug}`}>{article.data.title}</a>
 							</h2>
 							<p class="mt-4 flex gap-2">
 								<Fragment set:html={CalendarIcon} />
 								<time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>
 									{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}
 								</time>
+							</p>
+							<p class="pt-2 flex gap-2">
+								<Fragment set:html={ClockIcon} />
+								<span>{article.remarkPluginFrontmatter.minutesRead}</span>
 							</p>
 							<p class="pt-2 flex gap-2">
 								<Fragment set:html={UserIcon} />
@@ -67,7 +82,7 @@ function getTitle(): string {
 						<Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
 						<div class="p-4 bg-neutral-900/70">
 							<h2 class="text-2xl font-semibold">
-								<a href={article.slug}>{article.data.title}</a>
+								<a href={`/articles/${article.slug}`}>{article.data.title}</a>
 							</h2>
 							<div class="flex pt-4 justify-between items-center">
 								<div>
@@ -76,6 +91,10 @@ function getTitle(): string {
 										<time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>
 											{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}
 										</time>
+									</p>
+									<p class="pt-2 flex gap-2">
+										<Fragment set:html={ClockIcon} />
+										<span>{article.remarkPluginFrontmatter.minutesRead}</span>
 									</p>
 									<p class="pt-2 flex gap-2">
 										<Fragment set:html={UserIcon} />
