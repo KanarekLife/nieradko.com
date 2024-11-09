@@ -7,14 +7,9 @@ import dayjs from "dayjs";
 import CalendarIcon from "@assets/icons/calendar.svg?raw";
 import UserIcon from "@assets/icons/user.svg?raw";
 import GridIcon from "@assets/icons/grid.svg?raw";
-import type { CollectionEntry } from "astro:content";
 import ClockIcon from "@assets/icons/clock.svg?raw";
 
-function filterArticles(article: CollectionEntry<'articles'>): boolean {
-	return !!article.data.published || import.meta.env.DEV;
-}
-
-const allArticles = await getCollection('articles', filterArticles)
+const allArticles = await getCollection('articles', (article) => article.data.published || import.meta.env.DEV)
 	.then((articles) => articles.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()))
 	.then((articles) => Promise.all(
 		articles.map(async (article) => {
