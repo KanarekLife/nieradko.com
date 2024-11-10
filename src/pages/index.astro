@@ -37,11 +37,11 @@ const allArticles = await getCollection("articles", (article) => article.data.pu
 				{config.social.map((social) => <SocialMediaIcon social={social} />)}
 			</p>
 			<div class="mt-16 flex flex-col md:flex-row gap-4">
-				<Button href="https://github.com/KanarekLife/CV/releases/latest/download/cv.pdf" download class="gap-2">
+				<Button href="https://github.com/KanarekLife/CV/releases/latest/download/cv.pdf" download class="gap-2 h-12 outline outline-1">
 					<Fragment set:html={DownloadIcon} />
 					Download my CV
 				</Button>
-				<Button href="/contact/" class="gap-2" variant="secondary">
+				<Button href="/contact/" class="gap-2 h-12 outline outline-1" variant="secondary">
 					<Fragment set:html={SendIcon} />
 					Get in touch
 				</Button>

@@ -26,7 +26,7 @@ function getVariantTheme(variant?: Variant): string {
 <a  href={href}
     target={target}
     download={download}
-    class:list={[customClass, "inline-flex h-12 px-6 items-center justify-center rounded-md transition active:scale-95 group relative overflow-hidden hover:scale-110 text-nowrap", getVariantTheme(variant)]}>
+    class:list={[customClass, "inline-flex px-6 items-center justify-center rounded-md transition active:scale-95 group relative overflow-hidden hover:scale-110 text-nowrap", getVariantTheme(variant)]}>
     <slot />
     <div class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div class="relative h-full w-8 bg-white/40"></div></div>
 </a>
