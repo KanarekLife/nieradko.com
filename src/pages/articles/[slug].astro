@@ -2,24 +2,20 @@
 import config from '@config';
 import PageLayout from '@layouts/PageLayout.astro';
 import type { CollectionEntry } from 'astro:content';
-import { getCollection } from 'astro:content';
 import dayjs from 'dayjs';
 import CalendarIcon from '@assets/icons/calendar.svg?raw';
 import UserIcon from "@assets/icons/user.svg?raw";
 import { Image } from "astro:assets";
 import ArrowLeftIcon from '@assets/icons/arrow-left.svg?raw';
 import ClockIcon from '@assets/icons/clock.svg?raw';
+import { getArticles } from '@lib/ArticlesService';
 
 export interface Props {
     article: CollectionEntry<'articles'>;
 }
 
 export async function getStaticPaths() {
-    const allArticles = await getCollection('articles', (article) => {
-        return article.data.published || import.meta.env.DEV
-    });
-
-    return allArticles.map((article) => ({
+    return (await getArticles()).map(article => ({
         params: {
             slug: article.slug
         },

@@ -1,0 +1,36 @@
+---
+export interface Props {
+    start?: number;
+    value: number;
+    duration?: number;
+}
+const { start = 0, value, duration = 3000 } = Astro.props;
+---
+
+<animated-number-counter>
+    <span data-start={start} data-duration={duration}>{value}</span>
+</animated-number-counter>
+
+<script>
+    import gsap from "gsap";
+    import { Power1 } from "gsap";
+
+    class AnimatedNumberCounter extends HTMLElement {
+        connectedCallback() {
+            const element = this.querySelector('span')!;
+
+            const start = parseInt(element.dataset.start!);
+            const duration = parseInt(element.dataset.duration!);
+
+            gsap.from(element, {
+                textContent: start.toString(),
+                duration: duration / 1000,
+                ease: Power1.easeInOut,
+                snap: { textContent: 1 },
+                stagger: 1
+            });
+        }
+    }
+
+    customElements.define('animated-number-counter', AnimatedNumberCounter);
+</script>

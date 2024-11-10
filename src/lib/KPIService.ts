@@ -1,6 +1,6 @@
-export function getGitHubFollowersCount(): Promise<number> {
+export function getGitHubFollowersCount(): number {
     // TODO Fetch from GitHub API with cache
-    return Promise.resolve(40);
+    return 40;
 }
 
 export function getTotalCommercialExperience(): number {

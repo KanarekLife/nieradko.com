@@ -1,23 +1,13 @@
 ---
 import config from "@config";
 import PageLayout from "@layouts/PageLayout.astro";
-import { getCollection } from "astro:content";
 import GridIcon from "@assets/icons/grid.svg?raw";
 import ListIcon from '@assets/icons/list.svg?raw';
 import GridArticleItem from "@components/GridArticleItem.astro";
 import ListArticleItem from "@components/ListArticleItem.astro";
+import { getArticles } from "@lib/ArticlesService";
 
-const allArticles = await getCollection("articles", (article) => article.data.published || import.meta.env.DEV)
-	.then((articles) => articles.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()))
-	.then((articles) =>
-		Promise.all(
-			articles.map(async (article) => {
-				const { remarkPluginFrontmatter } = await article.render();
-				const typedRemarkPluginFrontmatter = remarkPluginFrontmatter as { minutesRead: number };
-				return { ...article, remarkPluginFrontmatter: typedRemarkPluginFrontmatter };
-			})
-		)
-	);
+const allArticles = await getArticles();
 
 function getTitle(): string {
 	return `${config.title} | Articles`;

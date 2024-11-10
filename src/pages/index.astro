@@ -5,7 +5,6 @@ import { Image } from "astro:assets";
 import LayoutIcon from "@assets/icons/layout.svg?raw";
 import SettingsIcon from "@assets/icons/settings.svg?raw";
 import DatabaseIcon from "@assets/icons/database.svg?raw";
-import { getCollection } from "astro:content";
 import config from "@config";
 import DownloadIcon from "@assets/icons/download.svg?raw";
 import SendIcon from "@assets/icons/send.svg?raw";
@@ -13,19 +12,11 @@ import Button from "@components/Button.astro";
 import GridArticleItem from "@components/GridArticleItem.astro";
 import SocialMediaIcon from "@components/SocialMediaIcon.astro";
 import { getGitHubFollowersCount, getTotalCommercialExperience, getSpecializations } from '@lib/KPIService';
+import AnimatedNumberCounter from "@components/AnimatedNumberCounter.astro";
+import AnimatedTextCarousel from "@components/AnimatedTextCarousel.astro";
+import { getArticles } from "@lib/ArticlesService";
 
-const allArticles = await getCollection("articles", (article) => article.data.published || import.meta.env.DEV)
-	.then((articles) => articles.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()))
-	.then((articles) => articles.slice(0, 3))
-	.then((articles) =>
-		Promise.all(
-			articles.map(async (article) => {
-				const { remarkPluginFrontmatter } = await article.render();
-				const typedRemarkPluginFrontmatter = remarkPluginFrontmatter as { minutesRead: number };
-				return { ...article, remarkPluginFrontmatter: typedRemarkPluginFrontmatter };
-			})
-		)
-	);
+const allArticles = await getArticles(3);
 ---
 
 <PageLayout>
@@ -50,21 +41,19 @@ const allArticles = await getCollection("articles", (article) => article.data.pu
 		<Image src={ProfilePicture} width="384" alt="Me (Stanisław Nieradko)" class="rounded-full" />
 	</div>
 	<div class="px-4 pt-8 grid grid-cols-1 md:grid-cols-4 gap-8">
-		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg">
+		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-24">
 			<p class="text-sm text-neutral-500 font-semibold">Number of GitHub followers</p>
-			<p class="text-2xl">{getGitHubFollowersCount()}</p>
+			<p class="text-2xl"><AnimatedNumberCounter value={getGitHubFollowersCount()}/></p>
 		</div>
-		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg">
+		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-24">
 			<p class="text-sm text-neutral-500 font-semibold">Years of commerical experience</p>
-			<p class="text-2xl">{getTotalCommercialExperience()}+</p>
+			<p class="text-2xl"><AnimatedNumberCounter value={getTotalCommercialExperience()}/>+</p>
 		</div>
-		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg">
+		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-24">
 			<p class="text-sm text-neutral-500 font-semibold">Proficient at</p>
-			<p class="text-xl flex gap-4 overflow-x-hidden snap-x" id="specializations">
-				{getSpecializations().map((text) => <span class="block min-w-full snap-start">{text}</span>)}
-			</p>
+			<AnimatedTextCarousel items={getSpecializations()} size="2xl" />
 		</div>
-		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg">
+		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-24">
 			<p class="text-sm text-neutral-500 font-semibold">Located at</p>
 			<p class="text-2xl inline-flex gap-2">
 				Gdańsk, Poland 🇵🇱 
@@ -127,25 +116,3 @@ const allArticles = await getCollection("articles", (article) => article.data.pu
 		grid-template-columns: auto 1fr;
 	}
 </style>
-
-<script>
-	// Shuffle specializations
-	const specializations = document.querySelector('#specializations');
-	for (let i = specializations?.children.length ?? 0; i >= 0; i--) {
-		specializations?.appendChild(specializations.children[Math.floor(Math.random() * i | 0)]!);
-	}
-
-	window.setInterval(() => {
-		const elements = document.querySelectorAll('#specializations > span');
-		console.log(document.querySelector('#specializations')?.scrollLeft);
-		console.log((elements[0] as HTMLSpanElement).clientWidth, (elements.length - 1));
-		console.log((document.querySelector('#specializations')?.scrollLeft ?? 0) > (elements[0] as HTMLSpanElement).clientWidth * (elements.length - 1));
-
-		if ((document.querySelector('#specializations')?.scrollLeft ?? 0) > (elements[0] as HTMLSpanElement).clientWidth * (elements.length - 1)) {
-			document.querySelector('#specializations')?.scrollTo({left: 0, behavior: 'smooth'});
-			return;
-		}
-
-		document.querySelector('#specializations')?.scrollBy({left: (elements[0] as HTMLSpanElement).clientWidth, behavior: 'smooth'});
-	}, 2500);
-</script>
