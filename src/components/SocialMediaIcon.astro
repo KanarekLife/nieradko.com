@@ -6,12 +6,16 @@ export interface Props {
         name: string;
         icon: string;
     };
+    displayName?: boolean;
 }
 
-const { social } = Astro.props;
+const { social, displayName } = Astro.props;
 ---
 
-<a href={social.url} target="_blank" rel="noopener noreferrer" class="flex gap-2 items-center">
+<a href={social.url}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="inline-flex gap-2 h-12 items-center justify-center transition active:scale-95 overflow-hidden hover:scale-110">
     <Fragment set:html={social.icon} />
-    <span class="hidden md:block">{social.name}</span>
+    { displayName ? <span class="hidden md:block">{social.name}</span> : null}
 </a>

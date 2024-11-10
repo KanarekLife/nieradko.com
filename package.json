@@ -1,12 +1,11 @@
 {
   "name": "nieradko.com",
   "type": "module",
+  "author": "Stanisław Nieradko <stanislaw@nieradko.com>",
   "repository": "https://github.com/KanarekLife/nieradko.com",
   "scripts": {
     "dev": "astro dev",
-    "start": "astro dev",
     "build": "astro check && astro build",
-    "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {

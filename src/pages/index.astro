@@ -5,75 +5,95 @@ import { Image } from "astro:assets";
 import LayoutIcon from "@assets/icons/layout.svg?raw";
 import SettingsIcon from "@assets/icons/settings.svg?raw";
 import DatabaseIcon from "@assets/icons/database.svg?raw";
-import CalendarIcon from "@assets/icons/calendar.svg?raw";
-import UserIcon from "@assets/icons/user.svg?raw";
-import ClockIcon from "@assets/icons/clock.svg?raw";
 import { getCollection } from "astro:content";
-import dayjs from "dayjs";
 import config from "@config";
-import Timeline from "@components/Timeline.astro";
 import DownloadIcon from "@assets/icons/download.svg?raw";
 import SendIcon from "@assets/icons/send.svg?raw";
+import Button from "@components/Button.astro";
+import GridArticleItem from "@components/GridArticleItem.astro";
+import SocialMediaIcon from "@components/SocialMediaIcon.astro";
+import { getGitHubFollowersCount, getTotalCommercialExperience, getSpecializations } from '@lib/KPIService';
 
 const allArticles = await getCollection("articles", (article) => article.data.published || import.meta.env.DEV)
 	.then((articles) => articles.sort((a, b) => b.data.created.getTime() - a.data.created.getTime()))
-	.then((articles) => articles.slice(0, 4))
+	.then((articles) => articles.slice(0, 3))
 	.then((articles) =>
 		Promise.all(
 			articles.map(async (article) => {
 				const { remarkPluginFrontmatter } = await article.render();
-				return { ...article, remarkPluginFrontmatter };
+				const typedRemarkPluginFrontmatter = remarkPluginFrontmatter as { minutesRead: number };
+				return { ...article, remarkPluginFrontmatter: typedRemarkPluginFrontmatter };
 			})
 		)
 	);
-
-const events = [
-	{ title: 'Took 2nd place in HackHeroes 2020', date: '2020', description: 'I coordinated a team of four people in building the JedzenioPlanner project for a HackHeroes 2020 hackathon. During the project, I assembled the team, divided tasks, and co-developed its back-end. The project secured second place, despite facing a record number of competitors from all over Poland.' },
-	{ title: 'Passed FCE (First Certificate in English)', date: '06.2021', description: 'Passed FCE exam with grade C1.'},
-	{ title: 'Software Engineer Intern @ Aspire Systems', date: '07.2022', description: 'I began my internship jsut after finishing high school. I jump straight into the commercial project as a .NET backend developer. During the internship I was working full-time from office.' },
-	{ title: 'Associate Engineer @ Aspire Systems', date: '10.2022', description: "After 3 months of internship I was offered a position at the company in the project I was already working in. Thanks to my team and company's leadership I could take the position as part-time employee for the duration of my BSc studies." },
-	{ title: 'Started Computer Science BSc @ Gdańsk University of Technology', date: '10.2022', description: 'Began my studies as full-time BSc Computer Science student in Gdańsk University of Technology.' },
-	{ title: 'Aspire Systems Rookie of the Year 2023 award', date: '12.2023', description: 'Thanks to my performance, high knowledge and helping others during the first year of my employment, I was awarded a Rookie of the Year award 2023.' },
-	{ title: 'Engineer @ Aspire Systems', date: '01.2024', description: 'Alongside the award, I was given a promotion to a new position. By this time I was a core contributor to the project I was working on by maitaining both backend and part of the ops.' },
-	{ title: 'Passed AZ-900 certificate', date: '05.2024', description: 'Passed Microsoft Certified: Azure Fundamentals (AZ-900) in order to solidify and extend my knowledge of Azure cloud.'},
-	{ title: 'Waiting for new challanges...', date: 'now' }
-];
 ---
 
 <PageLayout>
 	<div class="px-4 my-32 flex flex-col-reverse justify-center w-full md:flex-row md:justify-around items-center gap-4">
 		<div class="flex flex-col gap-2">
-			<h1 class="text-5xl">Hi, I'm Stanisław Nieradko.</h1>
+			<h1 class="text-4xl md:text-5xl">Hi, I'm Stanisław Nieradko.</h1>
 			<p class="text-lg"><span class="font-semibold">Full-stack software engineer</span> with interest in <span class="font-semibold">DevOps</span>.</p>
-			<div class="mt-8 flex gap-4">
-				<a href="https://github.com/KanarekLife/CV/releases/latest/download/cv.pdf" download class="px-4 py-2 inline-flex gap-2 outline outline-2 outline-primary text-primarybg bg-primary hover:bg-primaryhover hover:text-primarybg rounded-md">
+			<p class="mt-2 flex gap-4">
+				{config.social.map((social) => <SocialMediaIcon social={social} />)}
+			</p>
+			<div class="mt-16 flex flex-col md:flex-row gap-4">
+				<Button href="https://github.com/KanarekLife/CV/releases/latest/download/cv.pdf" download class="gap-2">
 					<Fragment set:html={DownloadIcon} />
 					Download my CV
-				</a>
-				<a href="#get-in-touch" class="px-4 py-2 inline-flex gap-2 outline outline-2 outline-primary text-primary bg-primarybg hover:bg-primaryhover hover:text-primarybg rounded-md">
+				</Button>
+				<Button href="/contact/" class="gap-2" variant="secondary">
 					<Fragment set:html={SendIcon} />
 					Get in touch
-				</a>
+				</Button>
 			</div>
 		</div>
-		<figure class="flex flex-col gap-2 items-center">
-			<Image src={ProfilePicture} width="384" alt="Me (Stanisław Nieradko)" class="rounded-lg" />
-			<figcaption>My profile picture (Stanisław Nieradko)</figcaption>
-		</figure>
+		<Image src={ProfilePicture} width="384" alt="Me (Stanisław Nieradko)" class="rounded-full" />
 	</div>
-	<div class="px-4 pt-16">
-		<h2 class="text-2xl">Timeline of my work and studies</h2>
-		<div class="mt-8">
-			<Timeline items={events}/>
+	<div class="px-4 pt-8 grid grid-cols-1 md:grid-cols-4 gap-8">
+		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg">
+			<p class="text-sm text-neutral-500 font-semibold">Number of GitHub followers</p>
+			<p class="text-2xl">{getGitHubFollowersCount()}</p>
+		</div>
+		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg">
+			<p class="text-sm text-neutral-500 font-semibold">Years of commerical experience</p>
+			<p class="text-2xl">{getTotalCommercialExperience()}+</p>
+		</div>
+		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg">
+			<p class="text-sm text-neutral-500 font-semibold">Proficient at</p>
+			<p class="text-xl flex gap-4 overflow-x-hidden snap-x" id="specializations">
+				{getSpecializations().map((text) => <span class="block min-w-full snap-start">{text}</span>)}
+			</p>
+		</div>
+		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg">
+			<p class="text-sm text-neutral-500 font-semibold">Located at</p>
+			<p class="text-2xl inline-flex gap-2">
+				Gdańsk, Poland 🇵🇱 
+			</p>
 		</div>
 	</div>
+	{ 
+		allArticles.length > 0
+		? (<div class="px-4 pt-32">
+			<h2 class="text-2xl">My latest articles</h2>
+			<ul class="px-4 mt-8 grid grid-cols-1 md:grid-cols-3 gap-4 articles-grid">
+				{
+					allArticles.map((article) => (
+						<li>
+							<GridArticleItem article={article} />
+						</li>
+					))
+				}
+			</ul>
+		</div>)
+		: null
+	}
 	<div class="px-4 py-32">
 		<p class="text-4xl text-center">I not only <span class="font-bold">build</span> but also <span class="font-bold">maintain</span> things.</p>
 	</div>
 	<div class="px-4 pt-16">
 		<h2 class="text-2xl">My skills and experiences</h2>
-		<div class="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-			<div class="flex flex-col gap-2 p-4 outline outline-1 outline-neutral-500 rounded-lg">
+		<div class="px-4 mt-8 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
+			<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
 				<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={SettingsIcon} /> Backend</h3>
 				<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
 					<li>Commerical experience with .NET Framework 4.8 and .NET 8.</li>
@@ -82,7 +102,7 @@ const events = [
 					<li>Experienced in building cloud-native applications (mostly in Azure).</li>
 				</ul>
 			</div>
-			<div class="flex flex-col gap-2 p-4 outline outline-1 outline-neutral-500 rounded-lg">
+			<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
 				<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={LayoutIcon} /> Frontend</h3>
 				<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
 					<li>Extensive knowledge of basics: HTML, CSS, JS and TypeScript.</li>
@@ -90,7 +110,7 @@ const events = [
 					<li>Working knowledge of designing and implementing even more complicated app designs.</li>
 				</ul>
 			</div>
-			<div class="flex flex-col gap-2 p-4 outline outline-1 outline-neutral-500 rounded-lg">
+			<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
 				<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={DatabaseIcon} /> DevOps</h3>
 				<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
 					<li>Good knowledge of Linux and Windows based systems administration (server setup and maintanence).</li>
@@ -100,61 +120,6 @@ const events = [
 			</div>
 		</div>
 	</div>
-	{ 
-		allArticles.length > 0
-		? (<div class="px-4 pt-32">
-			<h2 class="text-2xl">My latest articles</h2>
-			<ul class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 articles-grid">
-				{
-					allArticles.map((article) => (
-						<li>
-							<article class="relative h-96 w-full flex flex-col justify-end">
-								<Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
-								<div class="p-4 bg-neutral-900/70">
-									<h2 class="text-2xl font-semibold">
-										<a href={`/articles/${article.slug}`}>{article.data.title}</a>
-									</h2>
-									<div class="flex pt-4 justify-between items-center">
-										<div>
-											<p class="flex gap-2">
-												<Fragment set:html={CalendarIcon} />
-												<time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>
-													{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}
-												</time>
-											</p>
-											<p class="pt-2 flex gap-2">
-												<Fragment set:html={ClockIcon} />
-												<span>{article.remarkPluginFrontmatter.minutesRead}</span>
-											</p>
-											<p class="pt-2 flex gap-2">
-												<Fragment set:html={UserIcon} />
-												<span>{config.title}</span>
-											</p>
-										</div>
-										<div class="flex justify-end">
-											<a href={`/articles/${article.slug}`} class="px-4 py-2 text-primarybg bg-primary hover:bg-primaryhover hover:text-primarybg rounded-md">
-												Read more
-											</a>
-										</div>
-									</div>
-								</div>
-							</article>
-						</li>
-					))
-				}
-			</ul>
-		</div>)
-		: null
-	}
-	<div class="px-4 pt-16">
-		<h2 id="get-in-touch" class="text-2xl">Get in touch</h2>
-		<div class="mt-4 grid gap-x-2 contact-grid">
-			{config.social.map((social) => (
-				<span class="flex gap-2"><Fragment set:html={social.icon} /> {social.type}</span>
-				<span><a href={social.url} target="_blank">{social.name}</a></span>
-			))}
-		</div>
-	</div>
 </PageLayout>
 
 <style>
@@ -162,3 +127,25 @@ const events = [
 		grid-template-columns: auto 1fr;
 	}
 </style>
+
+<script>
+	// Shuffle specializations
+	const specializations = document.querySelector('#specializations');
+	for (let i = specializations?.children.length ?? 0; i >= 0; i--) {
+		specializations?.appendChild(specializations.children[Math.floor(Math.random() * i | 0)]!);
+	}
+
+	window.setInterval(() => {
+		const elements = document.querySelectorAll('#specializations > span');
+		console.log(document.querySelector('#specializations')?.scrollLeft);
+		console.log((elements[0] as HTMLSpanElement).clientWidth, (elements.length - 1));
+		console.log((document.querySelector('#specializations')?.scrollLeft ?? 0) > (elements[0] as HTMLSpanElement).clientWidth * (elements.length - 1));
+
+		if ((document.querySelector('#specializations')?.scrollLeft ?? 0) > (elements[0] as HTMLSpanElement).clientWidth * (elements.length - 1)) {
+			document.querySelector('#specializations')?.scrollTo({left: 0, behavior: 'smooth'});
+			return;
+		}
+
+		document.querySelector('#specializations')?.scrollBy({left: (elements[0] as HTMLSpanElement).clientWidth, behavior: 'smooth'});
+	}, 2500);
+</script>

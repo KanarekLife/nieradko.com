@@ -1,5 +1,6 @@
 ---
 import config from "@config";
+import Link from "@components/Link.astro";
 
 function isActive(path: string): boolean {
     if (path === '/') {
@@ -25,7 +26,7 @@ function isActive(path: string): boolean {
         <ul class="flex flex-col gap-2 md:flex-row md:gap-4">
             { config.menu.map((entry) => (
                 <li>
-                    <a href={entry.url} class:list={[{'text-normal pointer-events-none font-semibold': isActive(entry.url)}]}>{entry.name}</a>
+                    <Link href={entry.url} class:list={[{'text-normal pointer-events-none font-semibold': isActive(entry.url)}]}>{entry.name}</Link>
                 </li>
             ))}
         </ul>
