@@ -9,6 +9,7 @@ import { Image } from "astro:assets";
 import ArrowLeftIcon from '@assets/icons/arrow-left.svg?raw';
 import ClockIcon from '@assets/icons/clock.svg?raw';
 import { getArticles } from '@lib/ArticlesService';
+import Link from '@components/Link.astro';
 
 export interface Props {
     article: CollectionEntry<'articles'>;
@@ -34,7 +35,7 @@ const { Content, remarkPluginFrontmatter } = await article.render();
 ---
 
 <PageLayout title={getTitle()}>
-    <a href="/articles" class="px-4 flex gap-2"><Fragment set:html={ArrowLeftIcon} />Back to articles</a>
+    <Link href="/articles/" class="flex gap-2 px-4"><Fragment set:html={ArrowLeftIcon} />Back to articles</Link>
     <article class="px-4 pb-8 mt-4">
         <header class="relative h-96 w-full flex flex-col justify-end">
             <Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
@@ -47,7 +48,7 @@ const { Content, remarkPluginFrontmatter } = await article.render();
                     </p>
                     <p class="pt-2 flex gap-2">
                         <Fragment set:html={ClockIcon} />
-                        <span>{remarkPluginFrontmatter.minutesRead}</span>
+                        <span>{remarkPluginFrontmatter.readingTime}</span>
                     </p>
                     <p class="pt-2 flex gap-2">
                         <Fragment set:html={UserIcon} />

@@ -1,14 +1,16 @@
 ---
 export interface Props {
     href: string;
+    target?: '_self' | '_blank' | '_parent' | '_top';
     icon?: string;
     class?: string;
 }
 
-const { href, icon, class: customClass } = Astro.props;
+const { href, target, icon, class: customClass } = Astro.props;
 ---
 
-<a href={href}
+<a  href={href}
+    target={target}
     class:list={[customClass, "inline-flex gap-2 items-center justify-center transition active:scale-95 overflow-hidden hover:scale-110"]}>
     { icon ? <Fragment set:html={icon} /> : null }
     <slot />

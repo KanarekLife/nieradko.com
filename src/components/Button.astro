@@ -7,9 +7,11 @@ interface Props {
     target?: '_self' | '_blank' | '_parent' | '_top';
     download?: boolean;
     class?: string;
+    duration?: number;
+    delay?: number;
 }
 
-const { href, target, download, class: customClass, variant } = Astro.props;
+const { href, target, download, class: customClass, variant, duration = 1000, delay = 0 } = Astro.props;
 
 function getVariantTheme(variant?: Variant): string {
     switch (variant) {
@@ -22,11 +24,41 @@ function getVariantTheme(variant?: Variant): string {
     }
 }
 ---
+<animated-button>
+    <a  href={href}
+        target={target}
+        download={download}
+        class:list={[customClass, "inline-flex px-6 items-center justify-center rounded-md transition active:scale-95 group relative overflow-hidden hover:scale-110 text-nowrap", getVariantTheme(variant)]}
+        data-duration={duration}
+        data-delay={delay}>
+        <slot />
+        <div class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div class="relative h-full w-8 bg-white/40"></div></div>
+    </a>
+</animated-button>
 
-<a  href={href}
-    target={target}
-    download={download}
-    class:list={[customClass, "inline-flex px-6 items-center justify-center rounded-md transition active:scale-95 group relative overflow-hidden hover:scale-110 text-nowrap", getVariantTheme(variant)]}>
-    <slot />
-    <div class="absolute inset-0 flex h-full w-full justify-center [transform:skew(-12deg)_translateX(-100%)] group-hover:duration-1000 group-hover:[transform:skew(-12deg)_translateX(100%)]"><div class="relative h-full w-8 bg-white/40"></div></div>
-</a>
+<script>
+    import { gsap, Power1 } from 'gsap';
+
+    class AnimatedButton extends HTMLElement {
+        connectedCallback() {
+            const button = this.querySelector('a')!;
+            const duration = parseInt(button.dataset.duration!);
+            const delay = parseInt(button.dataset.delay!);
+
+            gsap.timeline()
+                .delay(delay / 1000)
+                .to(button, {
+                    scale: 1.5,
+                    duration: .1 * duration / 1000,
+                    ease: Power1.easeIn
+                })
+                .to(button, {
+                    scale: 1,
+                    duration: .2 * duration / 1000,
+                    ease: Power1.easeOut
+                });
+        }
+    }
+
+    customElements.define('animated-button', AnimatedButton);
+</script>

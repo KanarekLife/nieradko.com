@@ -1,6 +1,8 @@
 ---
 import config from "@config";
 import SocialMediaIcon from "./SocialMediaIcon.astro";
+import AnimatedRevealText from "./AnimatedRevealText.astro";
+import Link from "./Link.astro";
 
 function getCopyrightYears(): string {
     const now = new Date().getFullYear();
@@ -11,7 +13,7 @@ function getCopyrightYears(): string {
 
 <footer class="p-4 mt-16 flex flex-col items-center gap-2">
     <p class="flex gap-4">
-        {config.social.map((social) => <SocialMediaIcon social={social} displayName />)}
+        {config.social.map((social, i) => <AnimatedRevealText delay={i * 50}><SocialMediaIcon social={social} displayName /></AnimatedRevealText>)}
     </p>
-    <p><a href="/">{config.title}</a> &copy; {getCopyrightYears()}. All rights reserved.</p>
+    <p><AnimatedRevealText><Link href="/" class="px-2">{config.title}</Link> &copy; {getCopyrightYears()}. All rights reserved.</AnimatedRevealText></p>
 </footer>
