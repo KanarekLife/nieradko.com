@@ -40,7 +40,9 @@ const allArticles = await getArticles(3);
 				</Button>
 			</div>
 		</div>
-		<Image src={ProfilePicture} width="384" alt="Me (Stanisław Nieradko)" class="rounded-full" />
+		<AnimatedBlurIn class="rounded-full">
+			<Image src={ProfilePicture} width="384" alt="Me (Stanisław Nieradko)" class="rounded-full" />
+		</AnimatedBlurIn>
 	</div>
 	<div class="px-4 pt-8 grid grid-cols-1 md:grid-cols-4 gap-8">
 		<div class="p-4 flex flex-col gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-24">
