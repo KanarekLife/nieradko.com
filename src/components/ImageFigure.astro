@@ -1,0 +1,17 @@
+---
+import { Image } from 'astro:assets';
+import Link from './Link.astro';
+
+interface Props {
+    src: ImageMetadata;
+    text: string;
+    source?: string;
+}
+
+const { src, text, source } = Astro.props;
+---
+
+<figure>
+    <Image src={src} alt={text}/>
+    <figcaption class="text-center">{text}{source ? (<> (<Link href={source} target="_blank" class="px-1">Source</Link>)</>) : null}</figcaption>
+</figure>

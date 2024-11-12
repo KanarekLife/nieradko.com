@@ -1,35 +1,39 @@
 ---
 title: "Welcome to my new blog"
 created: "2024-11-12"
+published: "2024-11-12"
 cover: "./cover.jpg"
 ---
+import AstroPerformanceImage from './astro-performance.png';
+import ImageFigure from '@components/ImageFigure.astro';
 
-**Hello, World!**
+**Welcome to my new blog!**
 
-Welcome to my new blog. I know that its cliche to write a first post about the process of creating a new blog with a static site generator, but on the other hand it's a good way to test the waters and see if everything is working as expected.
+I know that writing a first post about the blog itself is a bit cliché, but I wanted to share some thoughts about the blog and the technology stack that I have chosen to build it.
 
 ## Why a new blog?
 
-I have been trying to get into writing my own blog for a while now, but there was always something else to do. There were a few iterations of PoC involving different solutions (among other [Hugo](https://gohugo.io/), [SvelteKit](https://svelte.dev/docs/kit/introduction), [Eleventy](https://11ty.dev), [Zola](https://www.getzola.org/) and even rolling out my own custom solution) but none of them really stuck with me. Given that I wanted to build a SSG solution (mostly due to being the easiest to host and maintain) I didn't really go into the route of building a Server Side Rendered solution or a full-fledged CMS.
-
-Having tested a few of SSG generators, one that stuck with me was [Astro](https://astro.build/). Astro is quite a new framework for building static sites.
+I have been trying to get into writing my own blog for a while now, but there was always something else to do. There were a few iterations of this project involving different solutions (among others [Hugo](https://gohugo.io/), [SvelteKit](https://svelte.dev/docs/kit/introduction), [Eleventy](https://11ty.dev), [Zola](https://www.getzola.org/) and even rolling out my own custom solution) but none of them really stuck with me. Given that I wanted to build a SSG solution (mostly due to being the easiest to host and maintain) I didn't really go into the route of building a Server Side Rendered solution or a full-fledged CMS. Having tested a few of SSG generators, one that stuck with me was [Astro](https://astro.build/). Astro is quite a new framework for building static sites but it's very powerful and highly recommended for this type of projects ([Astro Showcase](https://astro.build/showcase/)). For that reason alone I think that it's worth to give it a try.
 
 ## Why Astro?
 
 Its main selling points are:
 
 - **Performance**: Most of the time Astro will generate static HTML so the sites that use it are fast and have high [Lighthouse](https://developers.google.com/web/tools/lighthouse) scores.
-- **Developer Experience**: Astro is built with modern web technologies in mind. It's possible to easily integrate with client side JavaScript frameworks using [Astro Islands architecture](https://docs.astro.build/en/concepts/islands/) like [Svelte](https://svelte.dev/), [React](https://reactjs.org/) or [Vue](https://vuejs.org/), so it's possible to utilize the best of both worlds.
-- **Flexibility**: Astro is quite flexible and it's possible to program how it should behave to accomodate different use cases. You can easily use data from different sources (markdown files, json, remote APIs, CMSes etc.), write custom code to generate pages in however way you want and even easily extend it's functionality with [plugins system](https://astro.build/integrations/).
+- **Developer Experience**: Astro is built with modern web technologies in mind. It's possible to easily integrate with client side JavaScript frameworks using [Astro Islands architecture](https://docs.astro.build/en/concepts/islands/) like [Svelte](https://svelte.dev/), [React](https://reactjs.org/) or [Vue](https://vuejs.org/), so it's possible to combine the adventages of static site generators and client side JavaScript frameworks.
+- **Flexibility**: Astro is quite flexible and it's possible to program how it should behave to accomodate different use cases. You can easily use data from different sources (markdown files, jsons, remote APIs, CMSes etc.), write custom code to generate pages in however way you want and even easily extend it's functionality with [plugins system](https://astro.build/integrations/).
 
-For me the main selling point was the possibility to adjust the framework to my needs (I quite enjoy having control over the way how the framework generates the HTML, because I like to be able to read it and understand what's going on). Despite having possibility to use client side JavaScript frameworks (my favourite being Svelte) I decided to go with plain HTML, TailwindCSS for styling and a bit of custom TypeScript code for interactivity.
+<ImageFigure src={AstroPerformanceImage} text="Comparison of Astro's Real-World Core Web Vitals to other SSG solutions" source="https://astro.build/" />
+
+For me the main selling point was the possibility to adjust the framework to my needs. I prefer to have control over the way how the framework generates the HTML, because I like to be able to read it and understand what's going on. Despite having possibility to use client side JavaScript frameworks (my favourite being Svelte) I decided to go [Vanilla style](http://vanilla-js.com/) with plain HTML, TailwindCSS for styling and a bit of custom TypeScript code for interactivity.
 
 ## How it's built?
 
-I decided that I prefer to have a simple setup that I can easily understand and maintain. I have personally designed the layout (it's always a good practice) and implemented it with [Astro components](https://docs.astro.build/en/basics/astro-components/) using just a bit of TailwindCSS for styling. An example component (footer in this case) looks like that:
+I decided to have a simple setup that I can easily understand and maintain. I have personally designed the layout (mostly by copying nice looking tailwind components from various sources :laughing:) and implemented it with [Astro components](https://docs.astro.build/en/basics/astro-components/) using just a bit of TailwindCSS for styling. An example component (footer in this case) looks like that:
 
 ```astro
 ---
+// Here goes server-side / build-time TypeScript code
 import config from "@config";
 import SocialMediaIcon from "./SocialMediaIcon.astro";
 import AnimatedRevealText from "./AnimatedRevealText.astro";
@@ -41,34 +45,49 @@ function getCopyrightYears(): string {
     return now === then ? `${now}` : `${then} - ${now}`;
 }
 ---
-
-<footer class="p-4 mt-16 flex flex-col items-center gap-2">
+<!-- Here you can define your template -->
+<footer>
     <p class="flex gap-4">
         {config.social.map((social, i) => <AnimatedRevealText delay={i * 50}><SocialMediaIcon social={social} displayName /></AnimatedRevealText>)}
     </p>
     <p><AnimatedRevealText><Link href="/" class="px-2">{config.title}</Link> &copy; {getCopyrightYears()}. All rights reserved.</AnimatedRevealText></p>
 </footer>
+
+<!-- Here you can style your component (it can support scss, postcss etc.) -->
+<style>
+    footer {
+        @apply p-4 mt-16 flex flex-col items-center gap-2;
+    }
+</style>
+
+<!-- Here you can write JavaScript / TypeScript code that will be runned on the client side -->
+<script>
+    console.log('Hello World!');
+</script>
 ```
 
 The component file has quite a simple structure which is very nice to work with. The structure is as follows:
-- At the top of the file there is a block with server-side code (in this case TypeScript). When Astro is set to SSG mode, this code is executed during the build time and the results are injected into the result HTML. This is a great way to fetch data from different sources, do some calculations or even generate the HTML structure based on the data. Alternatively, when Astro is set to SSR mode, this code can be executed on the server side during the request and can react dynamically to the request.
-- The rest of the file is a JSX based syntax that is used to generate the HTML of the component. You can use the imported and written functions from the server-side / build-time code in order to populate the HTML with data. The syntax is almost the same as in React, so if you are familiar with React you should feel right at home. The biggest difference is that Astro components are compiled to static HTML during the build time, so if you want to have some interactivity you need to use either client-side JavaScript frameworks or utilise Web Components (which are supported by Astro out of the box).
+- At the top of the file there is a block with server-side code (in this case TypeScript). When Astro is set to [SSG mode](https://docs.astro.build/en/basics/rendering-modes/#pre-rendered), this code is executed during the build time and the results are injected into the result HTML. This is a great way to fetch data from different sources, do some calculations or even generate the HTML structure based on the data. Alternatively, when Astro is set to [SSR mode](https://docs.astro.build/en/basics/rendering-modes/#pre-rendered), this code will be executed on server during the request and will generate the HTML on the fly.
+- The rest of the file is a JSX based syntax that is used to generate the HTML of the component. You can use the imported and written functions from the server-side / build-time code in order to populate the HTML with data. The syntax is almost the same as in React, so if you are familiar with React you should feel right at home. The biggest difference is that Astro components are compiled to static HTML during the build time, so if you want to have some interactivity you need to use either client-side JavaScript frameworks (you use them in the same way as normal Astro components) or utilise Web Components (which are supported by Astro out of the box).
+- You can also define `<style>` and `<script>` blocks that will be injected into the resulting HTML. Both CSS and TypeScript are bundled, minified and scoped by Astro so you don't have to worry about the performance or the global scope pollution.
 
 The components can be imported and used in other components or pages. The pages are built in a similar way, but they are the entry points of the site. You can import both Astro components and components from different frameworks (like Svelte, React or Vue) and use them in the page. These can be set to run when fetching the page, when the component is in the viewport or when the user interacts with the component (this is a great way to improve the performance of the site without the too big of a penalty on the performance).
 
-The interesting thing for me was how the interactive components can be built with a vanilla TypeScript using Web Components. 
+The interesting thing for me was how the interactive components can be built with a vanilla TypeScript using Web Components:
 
 ```astro
 ---
+// Here we can define which props can be passed to the component
 interface Props {
     duration?: number;
     delay?: number;
     class?: string;
 }
 
-const { duration = 1000, delay = 0, class: customClass } = Astro.props;;
+const { duration = 1000, delay = 0, class: customClass } = Astro.props;
 ---
 
+<!-- Our WebComponent template. We pass data through data-* attributes in order to be able to read them in client-side code -->
 <animated-blurin data-duration={duration} data-delay={delay} class={customClass}>
     <slot />
 </animated-blurin>
@@ -76,7 +95,10 @@ const { duration = 1000, delay = 0, class: customClass } = Astro.props;;
 <script>
     import { gsap } from 'gsap';
 
+    // Here we define our WebComponent
     export class AnimatedBlurIn extends HTMLElement {
+
+        // connectedCallback method will be executed once per each instance of the component
         connectedCallback() {
             const duration = parseInt(this.getAttribute('data-duration')!);
             const delay = parseInt(this.getAttribute('data-delay')!);
@@ -91,6 +113,7 @@ const { duration = 1000, delay = 0, class: customClass } = Astro.props;;
         }
     }
 
+    // make sure to define the custom element so it can be used in the HTML. this code will be runned only once per page
     customElements.define('animated-blurin', AnimatedBlurIn);
 </script>
 ```
@@ -99,12 +122,12 @@ The component above is a simple example of how to create a custom Web Component 
 
 ## How it's deployed?
 
-For now I decided to use [Cloudflare Pages](https://pages.cloudflare.com/) to host the site. It's a great service that allows to host static sites for free (with some limitations) and it's quite easy to set up. I am already using Cloudflare for DNS so it was a natural choice for me. The deployment is automatically triggered when I push the changes to the `main` branch of the repository and the site is built and deployed in a mere minutes. The site is served over HTTPS from multiple edge locations around the world so it's fast and reliable for now.
+For now I decided to use [Cloudflare Pages](https://pages.cloudflare.com/) to host the site. It's a great service that allows to host static sites for free (with some limitations) and it's quite easy to set up. I am already using Cloudflare for DNS so it was a natural choice for me. The deployment is automatically triggered when I push the changes to the `main` branch of the repository and the site is built and deployed in a mere minutes. The site is served over HTTPS from multiple edge locations around the world so it's fast and reliable for now. In the past I have also used [GitHub Pages](https://pages.github.com/) and [Vercel](https://www.vercel.com/) to host static sites and I can recommend them as well.
 
-I plan to eventually move the website to my [kubernetes cluster](https://kubernetes.io/) that I am running, but for now I am happy with the current setup.
+I plan to eventually move the website to my [kubernetes](https://kubernetes.io/) cluster that I am running, but for now I am happy with the current setup.
 
 ## What's next?
 
 I plan to write more articles about the stuff that I learn. Currently I am mostly interested in .NET, DevOps related topics (kubernetes, docker etc.), web development and software architecture. I am also planning to write about the tools that I use and the projects that I am working on.
 
-If you have any feedback or suggestions feel free to reach out to me via email or social media. I am always happy to chat with people that share the same interests as me.
+If you have any feedback or suggestions feel free to reach out to me via [email or LinkedIn](/contact). I am always happy to chat with people that share the same interests as me. :wave:
