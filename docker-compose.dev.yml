@@ -1,0 +1,14 @@
+services:
+    frontend:
+        build:
+            context: .
+            dockerfile: dev.Dockerfile
+        ports:
+            - 4321:4321
+        develop:
+            watch:
+                - path: dev.Dockerfile
+                  action: rebuild
+                - path: .
+                  target: /app/
+                  action: sync
