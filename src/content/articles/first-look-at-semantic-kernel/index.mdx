@@ -1,0 +1,133 @@
+---
+title: "First Look at Semantic Kernel"
+created: "2024-11-12"
+cover: "./cover.png"
+---
+import ImageFigure from '@components/ImageFigure.astro';
+import OllamaImage from './ollama.png';
+import OllamaSystemTrayImage from './ollama-system-tray.png';
+
+Given the recent advancements in the field of LLMs I decided to take a closer look at the possibility of creating applications that would utilize this new and exciting technology.
+
+As I was researching the topic I found that there are several popular solutions, which allow calling LLMs from different programming languages and enable the usage of more advanced patterns such as [LLM Agents](https://www.promptingguide.ai/research/llm-agents), [RAG](https://www.promptingguide.ai/research/rag), [Function Calling](https://www.promptingguide.ai/applications/function_calling.en#getting-started-with-function-calling) and others. Among most popular, there were:
+- [LangChain](https://www.langchain.com/) - a software framework that helps facilitate the integration of large language models (LLMs) into applications. ([source](https://en.wikipedia.org/wiki/LangChain))
+- [AutoGen](https://microsoft.github.io/autogen/0.2/n) - an open-source framework for building AI agent systems. It simplifies the creation of event-driven, distributed, scalable, and resilient agentic applications. ([source](https://github.com/microsoft/autogen))
+- [PromptFlow](https://github.com/microsoft/promptflow) - a suite of development tools designed to streamline the end-to-end development cycle of LLM-based AI applications, from ideation, prototyping, testing, evaluation to production deployment and monitoring. [(source)](https://github.com/microsoft/promptflow)
+- [Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/) - a lightweight, open-source development kit that lets you easily build AI agents and integrate the latest AI models into your C#, Python, or Java codebase. ([source](https://learn.microsoft.com/en-us/semantic-kernel/overview/))
+
+After brief research, I decided to focus on Semantic Kernel as it seemed to: offer a full support for .NET which is my preferred programming language, have a good documentation and allows to easily integrate with LLMs and utilize even more advanced patterns without a lot of overhead. Were I to stick with the LLMs default integration language (so... _Python_), I would probably consider going with LangChain as it seems to be the most popular solution for this type of applications.
+
+## What should we use to run LLMs locally?
+
+Before jumping into the code, let's decide which LLM we want to use. Currently there is [a lot of development in the area of Large Language Models](https://www.vellum.ai/llm-leaderboard), so the choice is not easy. I would prefer not to use remotely hosted models, as these are more expensive than running the model locally, require internet connection to run and generally require connecting your credit card.
+
+In order to be able of hosting the model locally, we need some sort of application capable of running the model and exposing it as an REST API. For my experiments I have been mostly using [Ollama](https://ollama.com/) becuase it's free, fast and work out-of-the-box on windows with AMD GPUs. Another option worth recommending is leighweight [llama.cpp](https://github.com/ggerganov/llama.cpp), but it is not as user-friendly as Ollama.
+
+<ImageFigure src={OllamaImage} text="Ollama is capable of running large language models on all popular platforms (macOS, Linux and Windows) on most GPUs" source="https://ollama.com/" />
+
+After a simple installation of Ollama, it should be visible in the system tray and be ready to use.
+
+<ImageFigure src={OllamaSystemTrayImage} text="After a simple installation of Ollama, it should be visible in the system tray" />
+
+For the purpose of this article, I will be using Meta's open-source [Llama 3.2](https://www.llama.com/) model, which is a very popular choice for many developers due to its open nature and readiness to use for usecases like chatbots, code completion, text generation, [Function Calling](https://www.promptingguide.ai/applications/function_calling.en#getting-started-with-function-calling) and others.
+
+## How to run Llama 3.2 with Ollama?
+
+Ollama is capable of easily downloading and running most popular open models, including Llama 3.2 out-of-the-box. To download and run Llama 3.2 (with 11 bilion parameters), simply run the following command in the terminal:
+
+```bash
+$ ollama run llama3.2-vision:11b # you can also use llama3.2:1b or llama3.2:3b for a smaller model
+```
+
+Wait for the model to download and start running. When ready you should be able to see a prompt in the terminal, and you can start sending requests to the model.
+
+```bash
+$ ollama run llama3.2-vision:11b
+pulling manifest
+pulling 11f274007f09... 100% ▕████████████████████████████████████████████████████████▏ 6.0 GB
+pulling ece5e659647a... 100% ▕████████████████████████████████████████████████████████▏ 1.9 GB
+pulling 715415638c9c... 100% ▕████████████████████████████████████████████████████████▏  269 B
+pulling 0b4284c1f870... 100% ▕████████████████████████████████████████████████████████▏ 7.7 KB
+pulling fefc914e46e6... 100% ▕████████████████████████████████████████████████████████▏   32 B
+pulling fbd313562bb7... 100% ▕████████████████████████████████████████████████████████▏  572 B
+verifying sha256 digest
+writing manifest
+success
+
+>>> Hello!
+It's nice to meet you. Is there something I can help you with or would you like to chat?
+```
+
+The parameter after the colon specifies the number of parameters in the model. The larger the model, the more accurate it is, but also the slower it is. For most applications, the 11 billion parameter model should be sufficient, but even the 11b model is quite slow on most GPUs.
+
+For more advanced uses you can define a Modelfile with parameters, system messages and other settings, but for our use-case the default settings should be sufficient. For reference I recommend the official [Ollama documentation](https://github.com/ollama/ollama/blob/main/README.md).
+
+## How to get started with Semantic Kernel?
+
+To get started with Semantic Kernel, we will create a simple .NET console application that will connect to the running Llama 3.2 model and be able of sending requests to it. The code is quite simple and should be enough to get you started with the way the framework works.
+
+Let's start by creating a new .NET console application and install Microsoft.SemanticKernel and Microsoft.SemanticKernel.Connectors.Ollama packages:
+
+```bash
+$ dotnet new console -n FirstLookAtSemanticKernel -o FirstLookAtSemanticKernel
+$ cd \FirstLookAtSemanticKernel\
+$ dotnet add package Microsoft.SemanticKernel
+$ dotnet add package Microsoft.SemanticKernel.Connectors.Ollama --prerelease
+```
+
+Note that the Microsoft.SemanticKernel.Connectors.Ollama package is still in prerelease, so you need to specify the `--prerelease` flag when installing it. When you have everything set-up open your favourite IDE or editor and modify the `Program.cs` file to look like this:
+
+```csharp
+using Microsoft.SemanticKernel;
+#pragma warning disable SKEXP0070
+#pragma warning disable SKEXP0010
+
+var kernel = Kernel.CreateBuilder()
+    // You might use the upper version when working with f.i. Function Calling, which is currently not supported in much 
+    // newer Microsoft.SemanticKernel.Connectors.Ollama package. This package is useful however, when using f.i.
+    // embeddings...
+    
+    // .AddOpenAIChatCompletion("llama3.2-vision:11b", new Uri("http://localhost:11434/v1"), "ollama")
+    .AddOllamaChatCompletion("llama3.2-vision:11b", new Uri("http://localhost:11434"))
+    .Build();
+
+const string prompt = "Answer the question to the best of your ability: {{$question}}";
+
+while (true)
+{
+    Console.Write("Q: ");
+    var input = Console.ReadLine()?.Trim();
+
+    if (input == "exit")
+    {
+        break;
+    }
+
+    var result = await kernel.InvokePromptAsync(prompt, new KernelArguments
+    {
+        ["question"] = input
+    });
+    
+    Console.WriteLine($"A: {result}");
+}
+```
+
+In this example I am using the `AddOllamaChatCompletion` method to connect to the running Llama 3.2 model on locally hosted Ollama API. The `Microsoft.SemanticKernel.Connectors.Ollama` package is still in prerelease so stuff like Function Calling is not supported yet. If you want to use these features, you might want to try using standard `AddOpenAIChatCompletion` method with slighly changed URL and apiKey set to `"ollama"`. This method will utilise the Ollama's built-in compatibility with OpenAI standard API, so it will not work for stuff like [embeddings](https://www.cloudflare.com/learning/ai/what-are-embeddings/) or images but you can simply be using them both until the `Microsoft.SemanticKernel.Connectors.Ollama` package is updated.
+
+When you run the application, you should be able to see the prompt in the console and start sending requests to the model:
+
+```bash
+Q: What's your name?
+A: I don't have a personal name. I am a computer program designed to provide information and assist with tasks, so I'm often referred to as a "chatbot" or an "assistant". I'm here to help answer your questions and provide assistance, though! Is there something specific you'd like to know or talk about?     
+Q: exit
+
+Process finished with exit code 0.
+```
+
+Note that currently Semantic Kernel is very much `work-in-progress` type of project, so I would be careful to use it in production. You are reminded about that by the warning given when you use methods from the `Microsoft.SemanticKernel` namespace. You can disable these warnings by adding `#pragma warning disable <CODE OF ERROR>` at the beginning of your file.
+
+## Working with prompts
+
+Current iteration of our code is quite simple and is not very useful. In most cases you would want to avoid using model's built-in knowledge of the world and instead provide it with a prompt that will give it the context and all required information to generate a response. In order to do that, you can use the `{{$variable}}` syntax to define variables that will be replaced with the actual values when the model is called. For example let's modify our application to be able of answering questions based on the context we provide.
+
+Let's assume we want to be able to extract address from the emails with order requests. 
