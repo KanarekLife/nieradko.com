@@ -12,10 +12,18 @@ As you may recall from [the previous blog post](/articles/welcome-to-my-new-blog
 
 However, despite how great their free service is, I would like to practice my DevOps skills and as such the end goal was always to host this website on my personal kubernetes cluster. For that, it is obvious that having a well-written and small Docker image would always be a huge benefit and a time-saver. Since most of the time, when I write Dockerfiles for various services, I don't have time to waste I decided to research the topic a bit deeper than usual in hope that maybe there are some solutions to the usual problems I encountered. And well, the documentation did not disappoint!
 
+{/* 
+
+    TODO:
+        - Better cache system (which allows rerunning the image build)
+        - LLB which allow to skip already cached and unused steps
+        - Multiplatform builds
+ */}
+
 ## Past problems
 
-When it comes to building Docker images, there always were a few issues that I had but since everything worked _well enough_ there was no incentive to dig deeper and look if this challenges had some kind of solutions available:
-- **Caching**: For as long as I remember I had issues with layers caching. Docker is quite a well-written software so, for as long as I remember, it tries to cache everything it can. The devil, however, lies in the details. Since most of my Dockerfiles had quite a simple structure, following the most basic tutorials, they looked like this:
+Docker is one of these technologies which seem hard at the beggining but with time you learn to _tame the beast_. Most of the time you can get by using online references like [Stack Overflow](https://stackoverflow.com/) or [ChatGPT](https://chatgpt.com), but unless you dig deeper you might not realize that there are better ways to do some things. For me, one of the most frustrating part of writing good Dockerfiles were **Docker images buildtime**
 
-```Dockerfile
-```
+![](./cache-stack-invalidated.png)
+
+Docker, by default, caches every layer so that when you re-run `docker build` command it can reuse as much from the previous builds as it is possible. In  Furthermore Docker would execute the layers which were unused in final image and would be difficult to setup for multiplatform builds. All of that changes with [BuildKit](https://docs.docker.com/build/buildkit/)
