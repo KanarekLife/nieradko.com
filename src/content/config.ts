@@ -10,6 +10,17 @@ const articles = defineCollection({
 	})
 });
 
+const meetupAttendances = defineCollection({
+	type: 'content',
+	schema: ({image}) => z.object({
+		title: z.string(),
+		group: z.string(),
+		date: z.coerce.date(),
+		cover: image().refine((img) => img.width >= 1080)
+	})
+})
+
 export const collections = {
-	articles
+	articles,
+	meetup_attendances: meetupAttendances
 };
