@@ -10,7 +10,7 @@ const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro
 
 <animated-reveal-text>
     <span data-duration={duration} data-delay={delay} class:list={["relative inline-block", containerClass]}>
-        <span class="hidden inline-block w-full h-[110%] bg-yellow-400 absolute z-50 right-0"></span>
+        <span class="hidden inline-block! w-full h-[110%] bg-yellow-400 absolute z-50 right-0"></span>
         <span class:list={["inline-block", customClass]}>
             <slot />
         </span>
