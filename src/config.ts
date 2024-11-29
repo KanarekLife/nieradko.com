@@ -15,6 +15,7 @@ export default {
     menu: [
         { name: 'Home', url: '/' },
         { name: 'Articles', url: '/articles/' },
+        { name: 'Meetups', url: '/meetups/' },
         { name: 'Contact', url: '/contact/' }
     ]
 }

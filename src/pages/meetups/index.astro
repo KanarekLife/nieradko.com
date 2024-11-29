@@ -1,0 +1,71 @@
+---
+import PageLayout from "@layouts/PageLayout.astro";
+import { getMeetupAttendances } from "@lib/MeetupsService";
+import GridIcon from "@assets/icons/grid.svg?raw";
+import ListIcon from '@assets/icons/list.svg?raw';
+import config from "@config";
+import AnimatedRevealText from "@components/AnimatedRevealText.astro";
+import AnimatedBlurIn from "@components/AnimatedBlurIn.astro";
+import ListMeetupItem from "@components/ListMeetupItem.astro";
+import GridMeetupItem from "@components/GridMeetupItem.astro";
+
+const meetupAttendences = await getMeetupAttendances();
+
+function getTitle(): string {
+    return `${config.title} | Meetups`;
+}
+---
+
+<PageLayout title={getTitle()}>
+    <div class="flex justify-between items-center">
+        <h1 class="text-4xl px-4 py-8">Meetups</h1>
+        <label class="px-4 inline-flex items-center cursor-pointer">
+			<span class="mr-4"><Fragment set:html={ListIcon} /></span>
+            <input id="gridDisplayCheckbox" type="checkbox" value="" class="sr-only peer" />
+            <div class="relative w-11 h-6 rounded-full peer bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-primary"></div>
+            <span class="ml-4"><Fragment set:html={GridIcon} /></span>
+        </label>
+    </div>
+
+    <ul class="px-4 pb-8 flex flex-col gap-16 articles-list">
+		{
+			meetupAttendences.map((meetup, i) => (
+				<li>
+					<AnimatedRevealText delay={i*50} containerClass="w-full" class="w-full">
+						<ListMeetupItem article={meetup} />
+					</AnimatedRevealText>
+				</li>
+			))
+		}
+	</ul>
+    
+	<ul class="hidden px-4 pb-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 articles-grid">
+		{
+			meetupAttendences.map((meetup, i) => (
+				<li>
+					<AnimatedBlurIn delay={i*50}>
+						<GridMeetupItem article={meetup} />
+					</AnimatedBlurIn>
+				</li>
+			))
+		}
+	</ul>
+</PageLayout>
+
+<script>
+    const gridDisplayCheckbox = document.getElementById("gridDisplayCheckbox");
+    const articlesList = document.querySelector(".articles-list");
+    const articlesGrid = document.querySelector(".articles-grid");
+
+    if (window.localStorage.getItem('gridDisplay') === 'true') {
+        articlesList?.classList.add("hidden");
+        articlesGrid?.classList.remove("hidden");
+        (gridDisplayCheckbox as HTMLInputElement).checked = true;
+    }
+
+    gridDisplayCheckbox?.addEventListener('click', () => {
+        articlesList?.classList.toggle("hidden");
+        articlesGrid?.classList.toggle("hidden");
+        window.localStorage.setItem('gridDisplay', articlesGrid?.classList.contains("hidden") ? 'false' : 'true');
+    });
+</script>

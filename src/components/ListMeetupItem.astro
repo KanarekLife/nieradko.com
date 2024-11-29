@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import dayjs from 'dayjs';
+import CalendarIcon from '@assets/icons/calendar.svg?raw';
+import ClockIcon from '@assets/icons/clock.svg?raw';
+import Button from '@components/Button.astro';
+import Link from '@components/Link.astro';
+import type { MeetupAttendance } from '@lib/types';
+
+interface Props {
+    article: MeetupAttendance
+}
+
+const { article } = Astro.props;
+---
+
+<article class="flex flex-col md:flex-row gap-8">
+    <Image src={article.data.cover} alt={article.data.title} class="w-full md:w-64 object-cover" />
+    <div class="w-full">
+        <h2 class="text-2xl font-semibold">
+            <Link href={`/meetups/${article.slug}`}>{article.data.title}</Link>
+        </h2>
+        <p class="mt-4 flex gap-2">
+            <Fragment set:html={CalendarIcon} />
+            <time datetime={dayjs(article.data.date).toISOString()}>
+                {dayjs(article.data.date).format("DD-MM-YYYY")}
+            </time>
+        </p>
+        <p class="pt-2 flex gap-2">
+            <Fragment set:html={ClockIcon} />
+            <span>{article.remarkPluginFrontmatter.readingTime}</span>
+        </p>
+        <div class="flex justify-end">
+            <Button href={`/meetups/${article.slug}`} class='!h-10 px-3'>
+                Read more
+            </Button>
+        </div>
+    </div>
+</article>

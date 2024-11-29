@@ -5,3 +5,9 @@ export type Article = CollectionEntry<'articles'> & {
         readingTime: string;
     }
 }
+
+export type MeetupAttendance = CollectionEntry<'meetup_attendances'> & {
+    remarkPluginFrontmatter: {
+        readingTime: string;
+    }
+}

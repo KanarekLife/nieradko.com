@@ -16,7 +16,7 @@ const meetupAttendances = defineCollection({
 		title: z.string(),
 		group: z.string(),
 		date: z.coerce.date(),
-		cover: image().refine((img) => img.width >= 1080)
+		cover: image()
 	})
 })
 
