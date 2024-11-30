@@ -12,6 +12,6 @@ const { src, text, source } = Astro.props;
 ---
 
 <figure>
-    <Image src={src} alt={text}/>
+    <Image src={src} alt={text} class="mx-auto"/>
     <figcaption class="text-center">{text}{source ? (<> (<Link href={source} target="_blank" class="px-1">Source</Link>)</>) : null}</figcaption>
 </figure>

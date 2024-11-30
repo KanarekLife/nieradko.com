@@ -6,7 +6,7 @@ const articles = defineCollection({
 		title: z.string(),
 		created: z.coerce.date(),
 		published: z.coerce.date().optional(),
-		cover: image().refine((img) => img.width >= 1080),
+		cover: image(),
 	})
 });
 
