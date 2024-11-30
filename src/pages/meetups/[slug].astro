@@ -8,6 +8,8 @@ import PageLayout from '@layouts/PageLayout.astro';
 import Link from '@components/Link.astro';
 import dayjs from 'dayjs';
 import { Image } from 'astro:assets';
+import AnimatedRevealText from '@components/AnimatedRevealText.astro';
+import AnimatedBlurIn from '@components/AnimatedBlurIn.astro';
 
 export async function getStaticPaths() {
     return (await getMeetupAttendances()).map(meetup => ({
@@ -29,27 +31,31 @@ const { Content, remarkPluginFrontmatter } = await meetup.render();
 ---
 
 <PageLayout title={getTitle()}>
-    <Link href="/meetups/" class="flex gap-2 px-4"><Fragment set:html={ArrowLeftIcon} />Back to meetups</Link>
+    <Link href="/meetups/" class="px-4"><AnimatedRevealText class="flex gap-2" delay={400}><Fragment set:html={ArrowLeftIcon} />Back to meetups</AnimatedRevealText></Link>
     <article class="px-4 pb-8 mt-4">
-        <header class="relative h-96 w-full flex flex-col justify-end">
-            <Image src={meetup.data.cover} alt={meetup.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
-            <div class="p-4 bg-neutral-900/70">
-                <h1 class="font-bold text-4xl md:text-5xl">{meetup.data.title}</h1>
-                <div class="pt-8">
-                    <p class="flex gap-2">
-                        <Fragment set:html={CalendarIcon} />
-                        <time datetime={dayjs(meetup.data.date).toISOString()}>{dayjs(meetup.data.date).format("DD-MM-YYYY")}</time>
-                    </p>
-                    <p class="pt-2 flex gap-2">
-                        <Fragment set:html={ClockIcon} />
-                        <span>{remarkPluginFrontmatter.readingTime}</span>
-                    </p>
+        <AnimatedBlurIn>
+            <header class="relative h-96 w-full flex flex-col justify-end">
+                <Image src={meetup.data.cover} alt={meetup.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
+                <div class="p-4 bg-neutral-900/70">
+                    <h1 class="font-bold text-4xl md:text-5xl"><AnimatedRevealText>{meetup.data.title}</AnimatedRevealText></h1>
+                    <div class="pt-8">
+                        <p class="flex gap-2">
+                            <Fragment set:html={CalendarIcon} />
+                            <time datetime={dayjs(meetup.data.date).toISOString()}><AnimatedRevealText delay={100}>{dayjs(meetup.data.date).format("DD-MM-YYYY")}</AnimatedRevealText></time>
+                        </p>
+                        <p class="pt-2 flex gap-2">
+                            <Fragment set:html={ClockIcon} />
+                            <span><AnimatedRevealText delay={200}>{remarkPluginFrontmatter.readingTime}</AnimatedRevealText></span>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+        </AnimatedBlurIn>
 
         <main class="pt-4 mx-auto max-w-none prose prose-gray prose-invert">
-            <Content />
+            <AnimatedBlurIn>
+                <Content />
+            </AnimatedBlurIn>
         </main>
     </article>
 </PageLayout>

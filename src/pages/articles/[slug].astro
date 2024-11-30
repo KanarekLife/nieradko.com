@@ -10,6 +10,8 @@ import ArrowLeftIcon from '@assets/icons/arrow-left.svg?raw';
 import ClockIcon from '@assets/icons/clock.svg?raw';
 import { getArticles } from '@lib/ArticlesService';
 import Link from '@components/Link.astro';
+import AnimatedRevealText from '@components/AnimatedRevealText.astro';
+import AnimatedBlurIn from '@components/AnimatedBlurIn.astro';
 
 export interface Props {
     article: CollectionEntry<'articles'>;
@@ -35,31 +37,35 @@ const { Content, remarkPluginFrontmatter } = await article.render();
 ---
 
 <PageLayout title={getTitle()}>
-    <Link href="/articles/" class="flex gap-2 px-4"><Fragment set:html={ArrowLeftIcon} />Back to articles</Link>
+    <Link href="/articles/" class="px-4"><AnimatedRevealText class="flex gap-2" delay={500}><Fragment set:html={ArrowLeftIcon} />Back to articles</AnimatedRevealText></Link>
     <article class="px-4 pb-8 mt-4">
-        <header class="relative h-96 w-full flex flex-col justify-end">
-            <Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
-            <div class="p-4 bg-neutral-900/70">
-                <h1 class="font-bold text-4xl md:text-5xl">{article.data.title}</h1>
-                <div class="pt-8">
-                    <p class="flex gap-2">
-                        <Fragment set:html={CalendarIcon} />
-                        <time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}>{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}</time>
-                    </p>
-                    <p class="pt-2 flex gap-2">
-                        <Fragment set:html={ClockIcon} />
-                        <span>{remarkPluginFrontmatter.readingTime}</span>
-                    </p>
-                    <p class="pt-2 flex gap-2">
-                        <Fragment set:html={UserIcon} />
-                        <span>{config.title}</span>
-                    </p>
+        <AnimatedBlurIn>
+            <header class="relative h-96 w-full flex flex-col justify-end">
+                <Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
+                <div class="p-4 bg-neutral-900/70">
+                    <h1 class="font-bold text-4xl md:text-5xl"><AnimatedRevealText>{article.data.title}</AnimatedRevealText></h1>
+                    <div class="pt-8">
+                        <p class="flex gap-2">
+                            <Fragment set:html={CalendarIcon} />
+                            <time datetime={dayjs(article.data.published ?? article.data.created).toISOString()}><AnimatedRevealText delay={100}>{dayjs(article.data.published ?? article.data.created).format("DD-MM-YYYY")}</AnimatedRevealText></time>
+                        </p>
+                        <p class="pt-2 flex gap-2">
+                            <Fragment set:html={ClockIcon} />
+                            <span><AnimatedRevealText delay={200}>{remarkPluginFrontmatter.readingTime}</AnimatedRevealText></span>
+                        </p>
+                        <p class="pt-2 flex gap-2">
+                            <Fragment set:html={UserIcon} />
+                            <span><AnimatedRevealText delay={300}>{config.title}</AnimatedRevealText></span>
+                        </p>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </header>
+        </AnimatedBlurIn>
 
         <main class="pt-4 mx-auto max-w-none prose prose-gray prose-invert">
-            <Content />
+            <AnimatedBlurIn>
+                <Content />
+            </AnimatedBlurIn>
         </main>
     </article>
 </PageLayout>

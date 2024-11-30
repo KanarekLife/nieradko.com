@@ -18,7 +18,7 @@ function getTitle(): string {
 
 <PageLayout title={getTitle()}>
 	<div class="flex justify-between items-center">
-        <h1 class="text-4xl px-4 py-8">Articles</h1>
+        <h1 class="text-4xl px-4 py-8"><AnimatedRevealText>Articles</AnimatedRevealText></h1>
         <label class="px-4 inline-flex items-center cursor-pointer">
 			<span class="mr-4"><Fragment set:html={ListIcon} /></span>
             <input id="gridDisplayCheckbox" type="checkbox" value="" class="sr-only peer" />
