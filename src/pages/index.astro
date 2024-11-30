@@ -72,7 +72,7 @@ const allArticles = await getArticles(3);
 				{
 					allArticles.map((article, i) => (
 						<li>
-							<AnimatedBlurIn delay={i * 50}><GridArticleItem article={article} /></AnimatedBlurIn>
+							<AnimatedBlurIn delay={i * 100}><GridArticleItem article={article} /></AnimatedBlurIn>
 						</li>
 					))
 				}
@@ -84,33 +84,39 @@ const allArticles = await getArticles(3);
 		<p class="text-4xl text-center"><AnimatedRevealText>I not only <span class="font-bold">build</span> but also <span class="font-bold">maintain</span> things.</AnimatedRevealText></p>
 	</div>
 	<div class="px-4 pt-16">
-		<h2 class="text-2xl">My skills and experiences</h2>
+		<h2 class="text-2xl"><AnimatedRevealText>My skills and experiences</AnimatedRevealText></h2>
 		<div class="px-4 mt-8 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
-			<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
-				<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={SettingsIcon} /> Backend</h3>
-				<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
-					<li>Commerical experience with .NET Framework 4.8 and .NET 8.</li>
-					<li>Great knowledge of architectural patterns, best practices and system design principles.</li>
-					<li>I worked a lot with T-SQL on Azure SQL and MSSQL databases.</li>
-					<li>Experienced in building cloud-native applications (mostly in Azure).</li>
-				</ul>
-			</div>
-			<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
-				<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={LayoutIcon} /> Frontend</h3>
-				<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
-					<li>Extensive knowledge of basics: HTML, CSS, JS and TypeScript.</li>
-					<li>Experience in working with both modern frameworks like Angular, React, AstroJS, Svelte and legacy AngularJS.</li>
-					<li>Working knowledge of designing and implementing even more complicated app designs.</li>
-				</ul>
-			</div>
-			<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
-				<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={DatabaseIcon} /> DevOps</h3>
-				<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
-					<li>Good knowledge of Linux and Windows based systems administration (server setup and maintanence).</li>
-					<li>Worked a great ton with docker and kubernetes based systems and solutions. Deployed and maintained basic k8s based solutions.</li>
-					<li>Experienced in setting up and maintaing CI/CD pipelines in environments like: Azure DevOps, GitHub Actions, FluxCD and more.</li>
-				</ul>
-			</div>
+			<AnimatedRevealText delay={100}>
+				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
+					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={SettingsIcon} /> Backend</h3>
+					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
+						<li>Commerical experience with .NET Framework 4.8 and .NET 8.</li>
+						<li>Great knowledge of architectural patterns, best practices and system design principles.</li>
+						<li>I worked a lot with T-SQL on Azure SQL and MSSQL databases.</li>
+						<li>Experienced in building cloud-native applications (mostly in Azure).</li>
+					</ul>
+				</div>
+			</AnimatedRevealText>
+			<AnimatedRevealText delay={200}>
+				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
+					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={LayoutIcon} /> Frontend</h3>
+					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
+						<li>Extensive knowledge of basics: HTML, CSS, JS and TypeScript.</li>
+						<li>Experience in working with both modern frameworks like Angular, React, AstroJS, Svelte and legacy AngularJS.</li>
+						<li>Working knowledge of designing and implementing even more complicated app designs.</li>
+					</ul>
+				</div>
+			</AnimatedRevealText>
+			<AnimatedRevealText delay={300}>
+				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
+					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={DatabaseIcon} /> DevOps</h3>
+					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
+						<li>Good knowledge of Linux and Windows based systems administration (server setup and maintanence).</li>
+						<li>Worked a great ton with docker and kubernetes based systems and solutions. Deployed and maintained basic k8s based solutions.</li>
+						<li>Experienced in setting up and maintaing CI/CD pipelines in environments like: Azure DevOps, GitHub Actions, FluxCD and more.</li>
+					</ul>
+				</div>
+			</AnimatedRevealText>
 		</div>
 	</div>
 </PageLayout>
