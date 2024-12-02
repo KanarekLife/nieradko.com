@@ -25,7 +25,8 @@ const { start = 0, value, duration = 3000 } = Astro.props;
                 duration: duration / 1000,
                 ease: Power1.easeInOut,
                 snap: { textContent: 1 },
-                stagger: 1
+                stagger: 1,
+                scrollTrigger: this
             });
         }
     }

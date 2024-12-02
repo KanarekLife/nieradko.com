@@ -49,7 +49,9 @@ function getTitle(): string {
 
 <script>
     import { gsap } from 'gsap';
+    import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
+    gsap.registerPlugin(ScrollTrigger);
     if (import.meta.env.DEV) {
         // GSDevTools is a plugin for GSAP that creates a visual UI for controlling animations. It's only a TRIAL version and should not be used in production.
         gsap.registerPlugin(GSDevTools);

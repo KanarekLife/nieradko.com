@@ -25,7 +25,8 @@ const { duration = 1000, delay = 0, class: customClass } = Astro.props;
                 delay: delay / 1000,
                 opacity: 0,
                 filter: 'blur(10px)',
-                ease: 'power2.out'
+                ease: 'power2.out',
+                scrollTrigger: this
             });
         }
     }

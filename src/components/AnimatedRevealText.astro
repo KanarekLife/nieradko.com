@@ -26,7 +26,9 @@ const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro
 			const delay = parseInt(this.getAttribute("data-delay")!);
 
 			gsap
-				.timeline()
+				.timeline({
+					scrollTrigger: this
+				})
 				.delay(delay / 1000)
 				.set(boxElement, {
 					display: "block",

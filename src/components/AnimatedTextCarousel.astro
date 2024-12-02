@@ -58,7 +58,7 @@ const { items, durationPerItem: duration = 1000, size } = Astro.props;
                 element.appendChild(items[j]!);
             }
 
-            const rollbackTl = gsap.timeline({  })
+            const rollbackTl = gsap.timeline()
                 .set(element, { y: (items.length + 1) * lineHeight * -1 })
                 .to(element, { y: 0, duration: duration / 1000, ease: Power1.easeInOut });
 
@@ -78,7 +78,9 @@ const { items, durationPerItem: duration = 1000, size } = Astro.props;
                 delay: 0.5
             })
 
-            gsap.timeline()
+            gsap.timeline({
+                scrollTrigger: this
+            })
                 .add(rollbackTl)
                 .add(tl)
         }
