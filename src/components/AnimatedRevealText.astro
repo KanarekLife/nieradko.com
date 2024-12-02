@@ -1,51 +1,49 @@
 ---
 export interface Props {
-    duration?: number;
-    delay?: number;
-    class?: string;
-    containerClass?: string;
+	duration?: number;
+	delay?: number;
+	class?: string;
+	containerClass?: string;
 }
 const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro.props;
 ---
 
-<animated-reveal-text>
-    <span data-duration={duration} data-delay={delay} class:list={["relative inline-block", containerClass]}>
-        <span class="hidden inline-block! w-full h-[110%] bg-yellow-400 absolute z-50 right-0"></span>
-        <span class:list={["inline-block", customClass]}>
-            <slot />
-        </span>
-    </span>
+<animated-reveal-text data-duration={duration} data-delay={delay} class:list={["relative inline-block", containerClass]}>
+	<span class="hidden inline-block! w-full h-[110%] bg-yellow-400 absolute z-50 right-0"></span>
+	<span class:list={["inline-block", customClass]}>
+		<slot />
+	</span>
 </animated-reveal-text>
 
 <script>
-    import { gsap, Power1 } from 'gsap';
+	import { gsap, Power1 } from "gsap";
 
-    class AnimatedRevealText extends HTMLElement {
-        connectedCallback() {
-            const containerElement = this.querySelector('span')!;
-            const boxElement = containerElement.querySelector('span:first-child')!;
-            const contentElement = containerElement.querySelector('span:last-child')!;
-            const duration = parseInt(containerElement.dataset.duration!);
-            const delay = parseInt(containerElement.dataset.delay!);
+	class AnimatedRevealText extends HTMLElement {
+		connectedCallback() {
+			const boxElement = this.querySelector("span:first-child")!;
+			const contentElement = this.querySelector("span:last-child")!;
+			const duration = parseInt(this.getAttribute("data-duration")!);
+			const delay = parseInt(this.getAttribute("data-delay")!);
 
-            gsap.timeline()
-                .delay(delay / 1000)
-                .set(boxElement, {
-                    display: 'block'
-                })
-                .to(boxElement, {
-                    width: '0%',
-                    duration: .5 * duration / 1000,
-                    ease: Power1.easeOut,
-                })
-                .from(contentElement, {
-                    y: '100%',
-                    opacity: 0,
-                    duration: .5 * duration / 1000,
-                    ease: Power1.easeOut,
-                });
-        }
-    }
+			gsap
+				.timeline()
+				.delay(delay / 1000)
+				.set(boxElement, {
+					display: "block",
+				})
+				.to(boxElement, {
+					width: "0%",
+					duration: (0.5 * duration) / 1000,
+					ease: Power1.easeOut,
+				})
+				.from(contentElement, {
+					y: "100%",
+					opacity: 0,
+					duration: (0.5 * duration) / 1000,
+					ease: Power1.easeOut,
+				});
+		}
+	}
 
-    customElements.define('animated-reveal-text', AnimatedRevealText);
+	customElements.define("animated-reveal-text", AnimatedRevealText);
 </script>

@@ -7,8 +7,8 @@ export interface Props {
 const { start = 0, value, duration = 3000 } = Astro.props;
 ---
 
-<animated-number-counter>
-    <span data-start={start} data-duration={duration}>{value}</span>
+<animated-number-counter data-start={start} data-duration={duration}>
+    {value}
 </animated-number-counter>
 
 <script>
@@ -17,12 +17,10 @@ const { start = 0, value, duration = 3000 } = Astro.props;
 
     class AnimatedNumberCounter extends HTMLElement {
         connectedCallback() {
-            const element = this.querySelector('span')!;
+            const start = parseInt(this.getAttribute('data-start')!);
+            const duration = parseInt(this.getAttribute('data-duration')!);
 
-            const start = parseInt(element.dataset.start!);
-            const duration = parseInt(element.dataset.duration!);
-
-            gsap.from(element, {
+            gsap.from(this, {
                 textContent: start.toString(),
                 duration: duration / 1000,
                 ease: Power1.easeInOut,
