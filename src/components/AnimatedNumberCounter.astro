@@ -7,7 +7,7 @@ export interface Props {
 const { start = 0, value, duration = 3000 } = Astro.props;
 ---
 
-<animated-number-counter data-start={start} data-duration={duration}>
+<animated-number-counter data-start={start} data-duration={duration} class="hide_before_animation">
     {value}
 </animated-number-counter>
 
@@ -20,14 +20,18 @@ const { start = 0, value, duration = 3000 } = Astro.props;
             const start = parseInt(this.getAttribute('data-start')!);
             const duration = parseInt(this.getAttribute('data-duration')!);
 
-            gsap.from(this, {
-                textContent: start.toString(),
-                duration: duration / 1000,
-                ease: Power1.easeInOut,
-                snap: { textContent: 1 },
-                stagger: 1,
-                scrollTrigger: this
-            });
+            gsap
+                .timeline({
+                    scrollTrigger: this
+                })
+                .set(this, {opacity: 1})
+                .from(this, {
+                    textContent: start.toString(),
+                    duration: duration / 1000,
+                    ease: Power1.easeInOut,
+                    snap: { textContent: 1 },
+                    stagger: 1
+                });
         }
     }
 

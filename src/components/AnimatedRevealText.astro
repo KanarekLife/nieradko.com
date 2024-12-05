@@ -8,7 +8,7 @@ export interface Props {
 const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro.props;
 ---
 
-<animated-reveal-text data-duration={duration} data-delay={delay} class:list={["relative inline-block", containerClass]}>
+<animated-reveal-text data-duration={duration} data-delay={delay} class:list={["relative inline-block hide_before_animation", containerClass]}>
 	<span class="hidden inline-block! w-full h-[110%] bg-yellow-400 absolute z-50 right-0"></span>
 	<span class:list={["inline-block", customClass]}>
 		<slot />
@@ -29,6 +29,7 @@ const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro
 				.timeline({
 					scrollTrigger: this
 				})
+				.set(this, {opacity: 1})
 				.delay(delay / 1000)
 				.set(boxElement, {
 					display: "block",
@@ -36,7 +37,7 @@ const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro
 				.to(boxElement, {
 					width: "0%",
 					duration: (0.5 * duration) / 1000,
-					ease: Power1.easeOut,
+					ease: Power1.easeOut
 				})
 				.from(contentElement, {
 					y: "100%",

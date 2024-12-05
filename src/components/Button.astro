@@ -24,7 +24,7 @@ function getVariantTheme(variant?: Variant): string {
     }
 }
 ---
-<animated-button>
+<animated-button class="hide_before_animation">
     <a  href={href}
         target={target}
         download={download}
@@ -45,7 +45,13 @@ function getVariantTheme(variant?: Variant): string {
             const duration = parseInt(button.dataset.duration!);
             const delay = parseInt(button.dataset.delay!);
 
-            gsap.timeline()
+            gsap
+                .timeline({
+                    scrollTrigger: this
+                })
+                .set(this, {
+                    opacity: 1
+                })
                 .delay(delay / 1000)
                 .to(button, {
                     scale: 1.5,

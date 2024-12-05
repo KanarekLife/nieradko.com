@@ -31,7 +31,7 @@ function getLineHeight(size: Size) {
 const { items, durationPerItem: duration = 1000, size } = Astro.props;
 ---
 
-<animated-text-carousel>
+<animated-text-carousel class="hide_before_animation">
     <div class={getContainerClass(size)}>
         <ul class="list-none" data-duration={duration} data-line-height={getLineHeight(size)}>
             {items.map((item) => (
@@ -81,6 +81,9 @@ const { items, durationPerItem: duration = 1000, size } = Astro.props;
             gsap.timeline({
                 scrollTrigger: this
             })
+                .set(this, {
+                    opacity: 1
+                })
                 .add(rollbackTl)
                 .add(tl)
         }

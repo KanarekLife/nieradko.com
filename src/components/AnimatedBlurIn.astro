@@ -1,35 +1,38 @@
 ---
 interface Props {
-    duration?: number;
-    delay?: number;
-    class?: string;
+	duration?: number;
+	delay?: number;
+	class?: string;
 }
 
 const { duration = 1000, delay = 0, class: customClass } = Astro.props;
 ---
 
-<animated-blurin data-duration={duration} data-delay={delay} class={customClass}>
-    <slot />
+<animated-blurin data-duration={duration} data-delay={delay} class={`${customClass} hide_before_animation`}>
+	<slot />
 </animated-blurin>
 
 <script>
-    import { gsap } from 'gsap';
+	import { gsap } from "gsap";
 
-    export class AnimatedBlurIn extends HTMLElement {
-        connectedCallback() {
-            const duration = parseInt(this.getAttribute('data-duration')!);
-            const delay = parseInt(this.getAttribute('data-delay')!);
+	export class AnimatedBlurIn extends HTMLElement {
+		connectedCallback() {
+			const duration = parseInt(this.getAttribute("data-duration")!);
+			const delay = parseInt(this.getAttribute("data-delay")!);
 
-            gsap.from(this, {
-                duration: duration / 1000,
-                delay: delay / 1000,
-                opacity: 0,
-                filter: 'blur(10px)',
-                ease: 'power2.out',
-                scrollTrigger: this
-            });
-        }
-    }
+			gsap
+                .timeline({
+                    scrollTrigger: this,
+                })
+				.set(this, { opacity: 1 })
+				.from(this, {
+					duration: duration / 1000,
+					delay: delay / 1000,
+					filter: "blur(10px)",
+					ease: "power2.out",
+				});
+		}
+	}
 
-    customElements.define('animated-blurin', AnimatedBlurIn);
+	customElements.define("animated-blurin", AnimatedBlurIn);
 </script>
