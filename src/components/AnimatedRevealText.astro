@@ -30,9 +30,9 @@ const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro
 					scrollTrigger: this
 				})
 				.set(this, {opacity: 1})
-				.delay(delay / 1000)
 				.set(boxElement, {
 					display: "block",
+					delay: delay / 1000
 				})
 				.to(boxElement, {
 					width: "0%",

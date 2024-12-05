@@ -4,7 +4,7 @@ export interface Props {
     value: number;
     duration?: number;
 }
-const { start = 0, value, duration = 3000 } = Astro.props;
+const { start = 0, value, duration = 1500 } = Astro.props;
 ---
 
 <animated-number-counter data-start={start} data-duration={duration} class="hide_before_animation">

@@ -17,6 +17,7 @@ import AnimatedTextCarousel from "@components/AnimatedTextCarousel.astro";
 import { getArticles } from "@lib/ArticlesService";
 import AnimatedRevealText from "@components/AnimatedRevealText.astro";
 import AnimatedBlurIn from "@components/AnimatedBlurIn.astro";
+import AnimatedMatrixText from "@components/AnimatedMatrixText.astro";
 
 const allArticles = await getArticles(3);
 ---
@@ -27,14 +28,14 @@ const allArticles = await getArticles(3);
 			<h1 class="text-4xl md:text-5xl"><AnimatedRevealText>Hi, I'm Stanisław Nieradko!</AnimatedRevealText></h1>
 			<p class="text-lg"><AnimatedRevealText><span class="font-semibold">Full-stack software engineer</span> with interest in <span class="font-semibold">DevOps</span>.</AnimatedRevealText></p>
 			<p class="mt-2 flex gap-4">
-				{config.social.map((social) => <SocialMediaIcon social={social} />)}
+				{config.social.map((social, i) => <AnimatedRevealText delay={i * 100}><SocialMediaIcon social={social} /></AnimatedRevealText>)}
 			</p>
 			<div class="mt-16 flex flex-col md:flex-row gap-4">
 				<Button href="https://github.com/KanarekLife/CV/releases/latest/download/cv.pdf" download class="gap-2 h-12 outline outline-1">
 					<Fragment set:html={DownloadIcon} />
 					Download my CV
 				</Button>
-				<Button href="/contact/" class="gap-2 h-12 outline outline-1" variant="secondary" delay={100}>
+				<Button href="/contact/" class="gap-2 h-12 outline outline-1" variant="secondary" delay={250}>
 					<Fragment set:html={SendIcon} />
 					Get in touch
 				</Button>
@@ -60,7 +61,7 @@ const allArticles = await getArticles(3);
 		<div class="p-4 flex flex-col justify-between gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-32">
 			<p class="text-sm text-neutral-500 font-semibold">Located at</p>
 			<p class="text-2xl inline-flex gap-2">
-				<AnimatedRevealText>Gdańsk, Poland 🇵🇱</AnimatedTextCarousel>
+				<AnimatedMatrixText>Gdańsk, Poland 🇵🇱</AnimatedMatrixText>
 			</p>
 		</div>
 	</div>
@@ -81,7 +82,7 @@ const allArticles = await getArticles(3);
 		: null
 	}
 	<div class="px-4 py-32">
-		<p class="text-4xl text-center"><AnimatedRevealText>I not only <span class="font-bold">build</span> but also <span class="font-bold">maintain</span> things.</AnimatedRevealText></p>
+		<p class="text-4xl text-center"><AnimatedRevealText>I love to <span class="font-bold">build</span> and <span class="font-bold">maintain</span> technical solutions to business problems.</AnimatedRevealText></p>
 	</div>
 	<div class="px-4 pt-16">
 		<h2 class="text-2xl"><AnimatedRevealText>My skills and experiences</AnimatedRevealText></h2>

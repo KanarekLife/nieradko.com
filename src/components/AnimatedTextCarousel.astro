@@ -4,6 +4,7 @@ type Size = '2xl';
 export interface Props {
     items: string[];
     durationPerItem?: number;
+    rollbackTime?: number;
     size: Size;
 }
 
@@ -28,12 +29,12 @@ function getLineHeight(size: Size) {
     }
 }
 
-const { items, durationPerItem: duration = 1000, size } = Astro.props;
+const { items, durationPerItem: duration = 1000, size, rollbackTime = 1500 } = Astro.props;
 ---
 
 <animated-text-carousel class="hide_before_animation">
     <div class={getContainerClass(size)}>
-        <ul class="list-none" data-duration={duration} data-line-height={getLineHeight(size)}>
+        <ul class="list-none" data-duration={duration} data-line-height={getLineHeight(size)} data-rollback-time={rollbackTime}>
             {items.map((item) => (
                 <li class={getElementClass(size)}>{item}</li>
             ))}
@@ -51,6 +52,7 @@ const { items, durationPerItem: duration = 1000, size } = Astro.props;
             const items = element.querySelectorAll('li');
             const duration = parseInt(element.dataset.duration!);
             const lineHeight = parseInt(element.dataset.lineHeight!);
+            const rollbackTime = parseInt(element.dataset.rollbackTime!);
 
             // shuffle items in DOM
             for (let i = items.length - 1; i > 0; i--) {
@@ -60,7 +62,7 @@ const { items, durationPerItem: duration = 1000, size } = Astro.props;
 
             const rollbackTl = gsap.timeline()
                 .set(element, { y: (items.length + 1) * lineHeight * -1 })
-                .to(element, { y: 0, duration: duration / 1000, ease: Power1.easeInOut });
+                .to(element, { y: 0, duration: rollbackTime / 1000, ease: Power1.easeOut });
 
             const tl = gsap.timeline({ repeat: -1 });
             for (let i = 0; i < items.length - 1; i++) {
