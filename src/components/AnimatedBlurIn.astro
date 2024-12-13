@@ -3,12 +3,13 @@ interface Props {
 	duration?: number;
 	delay?: number;
 	class?: string;
+	replayOnEvent?: boolean;
 }
 
-const { duration = 1000, delay = 0, class: customClass } = Astro.props;
+const { duration = 1000, delay = 0, class: customClass, replayOnEvent } = Astro.props;
 ---
 
-<animated-blurin data-duration={duration} data-delay={delay} class={`${customClass} hide_before_animation`}>
+<animated-blurin data-duration={duration} data-delay={delay} class={`${customClass} hide_before_animation`} data-replay-on-event={replayOnEvent}>
 	<slot />
 </animated-blurin>
 
@@ -19,8 +20,9 @@ const { duration = 1000, delay = 0, class: customClass } = Astro.props;
 		connectedCallback() {
 			const duration = parseInt(this.getAttribute("data-duration")!);
 			const delay = parseInt(this.getAttribute("data-delay")!);
+			const replayOnEvent = this.getAttribute("data-replay-on-event") !== null;
 
-			gsap
+			const tl = gsap
                 .timeline({
                     scrollTrigger: this,
                 })
@@ -31,6 +33,12 @@ const { duration = 1000, delay = 0, class: customClass } = Astro.props;
 					filter: "blur(10px)",
 					ease: "power2.out",
 				});
+				
+			if (replayOnEvent) {
+				window.addEventListener('restartAnimation', () => {
+					tl.restart();
+				})
+			}
 		}
 	}
 

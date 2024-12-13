@@ -31,7 +31,7 @@ function getTitle(): string {
 		{
 			allArticles.map((article, i) => (
 				<li>
-					<AnimatedRevealText delay={i*50} containerClass="w-full" class="w-full">
+					<AnimatedRevealText delay={i*50} containerClass="w-full" class="w-full" replayOnEvent>
 						<ListArticleItem article={article} />
 					</AnimatedRevealText>
 				</li>
@@ -43,7 +43,7 @@ function getTitle(): string {
 		{
 			allArticles.map((article, i) => (
 				<li>
-					<AnimatedBlurIn delay={i*50}>
+					<AnimatedBlurIn delay={i*50} replayOnEvent>
 						<GridArticleItem article={article} />
 					</AnimatedBlurIn>
 				</li>
@@ -67,5 +67,6 @@ function getTitle(): string {
         articlesList?.classList.toggle("hidden");
         articlesGrid?.classList.toggle("hidden");
         window.localStorage.setItem('gridDisplay', articlesGrid?.classList.contains("hidden") ? 'false' : 'true');
+		window.dispatchEvent(new Event('restartAnimation'));
     });
 </script>

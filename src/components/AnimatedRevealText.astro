@@ -4,11 +4,12 @@ export interface Props {
 	delay?: number;
 	class?: string;
 	containerClass?: string;
+	replayOnEvent?: boolean;
 }
-const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro.props;
+const { duration = 1000, delay = 0, class: customClass, containerClass, replayOnEvent } = Astro.props;
 ---
 
-<animated-reveal-text data-duration={duration} data-delay={delay} class:list={["relative inline-block hide_before_animation", containerClass]}>
+<animated-reveal-text data-duration={duration} data-delay={delay} class:list={["relative inline-block hide_before_animation", containerClass]} data-replay-on-event={replayOnEvent}>
 	<span class="hidden inline-block! w-full h-[110%] bg-yellow-400 absolute z-50 right-0"></span>
 	<span class:list={["inline-block", customClass]}>
 		<slot />
@@ -24,8 +25,9 @@ const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro
 			const contentElement = this.querySelector("span:last-child")!;
 			const duration = parseInt(this.getAttribute("data-duration")!);
 			const delay = parseInt(this.getAttribute("data-delay")!);
+			const replayOnEvent = this.getAttribute("data-replay-on-event") !== null;
 
-			gsap
+			const tl = gsap
 				.timeline({
 					scrollTrigger: this
 				})
@@ -45,6 +47,12 @@ const { duration = 1000, delay = 0, class: customClass, containerClass } = Astro
 					duration: (0.5 * duration) / 1000,
 					ease: Power1.easeOut,
 				});
+
+			if (replayOnEvent) {
+				window.addEventListener('restartAnimation', () => {
+					tl.restart();
+				})
+			}
 		}
 	}
 
