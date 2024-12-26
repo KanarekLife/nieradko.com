@@ -1,4 +1,4 @@
-import { getCollection, type CollectionEntry } from "astro:content";
+import { getCollection, render, type CollectionEntry } from "astro:content";
 import type { MeetupAttendance } from "@lib/types";
 
 export async function getMeetupAttendances(take: number | null = null): Promise<Array<MeetupAttendance>> {
@@ -13,7 +13,7 @@ function sortByDate(attendances: Array<CollectionEntry<'meetup_attendances'>>): 
 }
 
 async function mapToMeetupAttendance(entry: CollectionEntry<'meetup_attendances'>): Promise<MeetupAttendance> {
-    const { remarkPluginFrontmatter } = await entry.render();
+    const { remarkPluginFrontmatter } = await render(entry);
     const typedRemarkPluginFrontmatter = remarkPluginFrontmatter as { readingTime: string; };
     return { ...entry, remarkPluginFrontmatter: typedRemarkPluginFrontmatter };
 }

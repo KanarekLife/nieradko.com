@@ -18,7 +18,7 @@ const { article } = Astro.props;
     <Image src={article.data.cover} alt={article.data.title} class="w-full h-full object-cover absolute -z-10 rounded-md" />
     <div class="p-4 bg-neutral-900/70">
         <h2 class="text-2xl font-semibold">
-            <Link href={`/meetups/${article.slug}`}>{article.data.title}</Link>
+            <Link href={`/meetups/${article.id}`}>{article.data.title}</Link>
         </h2>
         <div class="flex pt-4 justify-between items-center">
             <div>
@@ -34,7 +34,7 @@ const { article } = Astro.props;
                 </p>
             </div>
             <div class="mt-auto">
-                <Button href={`/meetups/${article.slug}`} class='h-10 px-3'>
+                <Button href={`/meetups/${article.id}`} class='h-10 px-3'>
                     Read more
                 </Button>
             </div>

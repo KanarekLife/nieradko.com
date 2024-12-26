@@ -10,11 +10,12 @@ import dayjs from 'dayjs';
 import { Image } from 'astro:assets';
 import AnimatedRevealText from '@components/AnimatedRevealText.astro';
 import AnimatedBlurIn from '@components/AnimatedBlurIn.astro';
+import { render } from 'astro:content';
 
 export async function getStaticPaths() {
     return (await getMeetupAttendances()).map(meetup => ({
         params: {
-            slug: meetup.slug
+            id: meetup.id
         },
         props: {
             meetup
@@ -27,7 +28,7 @@ function getTitle(): string {
 }
 
 const { meetup } = Astro.props;
-const { Content, remarkPluginFrontmatter } = await meetup.render();
+const { Content, remarkPluginFrontmatter } = await render(meetup);
 ---
 
 <PageLayout title={getTitle()}>

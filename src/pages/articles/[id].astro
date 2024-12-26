@@ -12,6 +12,7 @@ import { getArticles } from '@lib/ArticlesService';
 import Link from '@components/Link.astro';
 import AnimatedRevealText from '@components/AnimatedRevealText.astro';
 import AnimatedBlurIn from '@components/AnimatedBlurIn.astro';
+import { render } from 'astro:content';
 
 export interface Props {
     article: CollectionEntry<'articles'>;
@@ -20,7 +21,7 @@ export interface Props {
 export async function getStaticPaths() {
     return (await getArticles()).map(article => ({
         params: {
-            slug: article.slug
+            id: article.id
         },
         props: {
             article
@@ -33,7 +34,7 @@ function getTitle(): string {
 }
 
 const { article } = Astro.props;
-const { Content, remarkPluginFrontmatter } = await article.render();
+const { Content, remarkPluginFrontmatter } = await render(article);
 ---
 
 <PageLayout title={getTitle()}>
