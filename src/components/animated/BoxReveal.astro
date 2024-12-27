@@ -1,0 +1,63 @@
+---
+import type { AnimationComponentProps } from '@lib/types';
+
+interface Props extends AnimationComponentProps {
+    class?: string;
+    boxClass?: string;
+}
+
+const { duration = 1000, delay = 0, class: customClass, boxClass: containerClass, replayOnEvent } = Astro.props;
+---
+
+<box-reveal data-duration={duration}
+            data-delay={delay}
+            class:list={["relative inline-block hide_before_animation", containerClass]}
+            data-replay-on-event={replayOnEvent}>
+    <span class="hidden inline-block! w-full h-[110%] bg-yellow-400 absolute z-50 right-0"></span>
+    <span class:list={["inline-block", customClass]}>
+        <slot />
+    </span>
+</box-reveal>
+
+<script>
+    import { gsap, Power1 } from 'gsap';
+
+    class BoxRevealComponent extends HTMLElement {
+        connectedCallback() {
+            const boxElement = this.querySelector('span:first-child')!;
+            const contentElement = this.querySelector('span:last-child')!;
+            const duration = parseInt(this.getAttribute('data-duration')!);
+            const delay = parseInt(this.getAttribute('data-delay')!);
+            const replayOnEvent = this.getAttribute('data-replay-on-event') !== null;
+
+            const timeline = gsap
+                .timeline({
+                    scrollTrigger: this
+                })
+                .set(this, { opacity: 1 })
+                .set(boxElement, {
+                    display: 'block',
+                    delay: delay / 1000
+                })
+                .to(boxElement, {
+                    width: '0%',
+                    duration: (0.5 * duration) / 1000,
+                    ease: Power1.easeOut
+                })
+                .from(contentElement, {
+                    y: '100%',
+                    opacity: 0,
+                    duration: (0.5 * duration) / 1000,
+                    ease: Power1.easeOut
+                });
+
+            if (replayOnEvent) {
+                window.addEventListener('restartAnimation', () => {
+                    timeline.restart();
+                });
+            }
+        }
+    }
+
+    customElements.define('box-reveal', BoxRevealComponent);
+</script>

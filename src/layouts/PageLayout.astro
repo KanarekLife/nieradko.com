@@ -20,6 +20,17 @@ function getTitle(): string {
         <meta name="generator" content={Astro.generator} />
         <title>{getTitle()}</title>
         { import.meta.env.DEV ? <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/16327/GSDevTools3.min.js" is:inline></script> : null }
+        <script>
+            import { gsap } from 'gsap';
+            import { ScrollTrigger } from 'gsap/ScrollTrigger';
+        
+            document.querySelectorAll('.hide_before_animation').forEach(element => element.classList.add('opacity-0'));
+            gsap.registerPlugin(ScrollTrigger);
+            if (import.meta.env.DEV) {
+                // GSDevTools is a plugin for GSAP that creates a visual UI for controlling animations. It's only a TRIAL version and should not be used in production.
+                gsap.registerPlugin(GSDevTools);
+            }
+        </script>
     </head>
     <body class="bg-background text-normal flex flex-col">
         <Header />
@@ -50,16 +61,3 @@ function getTitle(): string {
 
     @tailwind utilities;
 </style>
-
-
-<script>
-    import { gsap } from 'gsap';
-    import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-    document.querySelectorAll('.hide_before_animation').forEach(element => element.classList.add('opacity-0'));
-    gsap.registerPlugin(ScrollTrigger);
-    if (import.meta.env.DEV) {
-        // GSDevTools is a plugin for GSAP that creates a visual UI for controlling animations. It's only a TRIAL version and should not be used in production.
-        gsap.registerPlugin(GSDevTools);
-    }
-</script>

@@ -1,0 +1,99 @@
+---
+import type { AnimationComponentProps } from "@lib/types";
+
+type Size = "2xl";
+
+interface Props extends AnimationComponentProps {
+	items: string[];
+	rollbackTime?: number;
+	size: Size;
+}
+
+function getContainerClass(size: Size) {
+	switch (size) {
+		case "2xl":
+			return "max-h-8 overflow-y-hidden";
+	}
+}
+
+function getElementClass(size: Size) {
+	switch (size) {
+		case "2xl":
+			return "text-2xl";
+	}
+}
+
+function getLineHeight(size: Size) {
+	switch (size) {
+		case "2xl":
+			return "32";
+	}
+}
+
+const { items, duration = 1000 * items.length, delay = 0, size, rollbackTime = 1500 } = Astro.props;
+---
+
+<text-carousel data-duration={duration}
+               data-delay={delay}
+               data-rollback-time={rollbackTime}
+               data-line-height={getLineHeight(size)}
+               class="hide_before_animation">
+	<div class={getContainerClass(size)}>
+		<ul class="list-none">
+			{items.map((item) => <li class={getElementClass(size)}>{item}</li>)}
+		</ul>
+	</div>
+</text-carousel>
+
+<script>
+	import { gsap, Power1 } from "gsap";
+
+	class TextCarouselComponent extends HTMLElement {
+		connectedCallback() {
+			const element = this.querySelector("ul")!;
+			const items = element.querySelectorAll("li");
+			const duration = parseInt(this.getAttribute("data-duration")!);
+			const lineHeight = parseInt(this.getAttribute("data-line-height")!);
+			const rollbackTime = parseInt(this.getAttribute("data-rollback-time")!);
+
+			// shuffle items in DOM
+			for (let i = items.length - 1; i > 0; i--) {
+				const j = Math.floor(Math.random() * (i + 1));
+				element.appendChild(items[j]!);
+			}
+
+			const rollbackTl = gsap
+				.timeline()
+				.set(element, { y: (items.length + 1) * lineHeight * -1 })
+				.to(element, { y: 0, duration: rollbackTime / 1000, ease: Power1.easeOut });
+
+			const tl = gsap.timeline({ repeat: -1 });
+			for (let i = 0; i < items.length - 1; i++) {
+				tl.to(element, {
+					y: (i + 1) * lineHeight * -1,
+					duration: duration / items.length / 1000,
+					ease: Power1.easeInOut,
+					delay: 0.5,
+				});
+			}
+			tl.to(element, {
+				y: 0,
+				duration: duration / items.length / 1000,
+				ease: Power1.easeInOut,
+				delay: 0.5,
+			});
+
+			gsap
+				.timeline({
+					scrollTrigger: this,
+				})
+				.set(this, {
+					opacity: 1,
+				})
+				.add(rollbackTl)
+				.add(tl);
+		}
+	}
+
+	customElements.define("text-carousel", TextCarouselComponent);
+</script>

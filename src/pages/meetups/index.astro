@@ -4,10 +4,10 @@ import { getMeetupAttendances } from "@lib/MeetupsService";
 import GridIcon from "@assets/icons/grid.svg?raw";
 import ListIcon from '@assets/icons/list.svg?raw';
 import config from "@config";
-import AnimatedRevealText from "@components/AnimatedRevealText.astro";
-import AnimatedBlurIn from "@components/AnimatedBlurIn.astro";
 import ListMeetupItem from "@components/ListMeetupItem.astro";
 import GridMeetupItem from "@components/GridMeetupItem.astro";
+import BoxReveal from "@components/animated/BoxReveal.astro";
+import BlurIn from "@components/animated/BlurIn.astro";
 
 const meetupAttendences = await getMeetupAttendances();
 
@@ -18,7 +18,7 @@ function getTitle(): string {
 
 <PageLayout title={getTitle()}>
     <div class="flex justify-between items-center">
-        <h1 class="text-4xl px-4 py-8"><AnimatedRevealText>Meetups</AnimatedRevealText></h1>
+        <h1 class="text-4xl px-4 py-8"><BoxReveal>Meetups</BoxReveal></h1>
         <label class="px-4 inline-flex items-center cursor-pointer">
 			<span class="mr-4"><Fragment set:html={ListIcon} /></span>
             <input id="gridDisplayCheckbox" type="checkbox" value="" class="sr-only peer" />
@@ -31,9 +31,9 @@ function getTitle(): string {
 		{
 			meetupAttendences.map((meetup, i) => (
 				<li>
-					<AnimatedRevealText delay={i*50} containerClass="w-full" class="w-full" replayOnEvent>
+					<BoxReveal delay={i*50} boxClass="w-full" class="w-full" replayOnEvent>
 						<ListMeetupItem article={meetup} />
-					</AnimatedRevealText>
+					</BoxReveal>
 				</li>
 			))
 		}
@@ -43,9 +43,9 @@ function getTitle(): string {
 		{
 			meetupAttendences.map((meetup, i) => (
 				<li>
-					<AnimatedBlurIn delay={i*50} replayOnEvent>
+					<BlurIn delay={i*50} replayOnEvent>
 						<GridMeetupItem article={meetup} />
-					</AnimatedBlurIn>
+					</BlurIn>
 				</li>
 			))
 		}

@@ -15,7 +15,7 @@ interface Content {
     content: string;
 }
 
-class ScrambleText {
+class TextScrambleUtils {
     private _startTime: number;
     private _elapsedTime: number;
     private _running: boolean;
@@ -184,4 +184,4 @@ function split(string: string): Content[] {
     return array;
 }
 
-export default ScrambleText;
+export default TextScrambleUtils;

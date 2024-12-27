@@ -1,0 +1,52 @@
+---
+import type { AnimationComponentProps } from '@lib/types';
+
+interface Props extends AnimationComponentProps {
+
+}
+
+const { duration = 1000, delay = 0, replayOnEvent } = Astro.props;
+---
+
+<text-scramble data-duration={duration}
+               data-delay={delay}
+               data-replay-on-event={replayOnEvent}
+               class="hide_before_animation">
+    <slot />
+</text-scramble>
+
+<script>
+    import { gsap } from 'gsap';
+    import TextScrambleUtils from './_TextScrambleUtils';
+
+    class TextScrambleComponent extends HTMLElement {
+        connectedCallback() {
+            const duration = parseInt(this.getAttribute('data-duration')!);
+            const delay = parseInt(this.getAttribute('data-delay')!);
+            const replayOnEvent = this.getAttribute('data-replay-on-event') !== null;
+
+            const util = new TextScrambleUtils(this, {
+                timeOffset: duration / this.textContent!.length
+            });
+
+            const timeline = gsap
+                .timeline({
+                    scrollTrigger: this
+                })
+                .set(this, { opacity: 1 })
+                .from(this, {
+                    duration: duration / 1000,
+                    delay: delay / 1000,
+                    onStart: () => { util.start() }
+                });
+
+            if (replayOnEvent) {
+                window.addEventListener('restartAnimation', () => {
+                    timeline.restart();
+                });
+            }
+        }
+    }
+
+    customElements.define('text-scramble', TextScrambleComponent);
+</script>

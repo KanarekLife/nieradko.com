@@ -1,7 +1,7 @@
 ---
 import { Image } from 'astro:assets';
-import Link from './Link.astro';
-import AnimatedRevealText from './AnimatedRevealText.astro';
+import Link from '@components/Link.astro';
+import BoxReveal from '@components/animated/BoxReveal.astro';
 
 interface Props {
     src: ImageMetadata;
@@ -15,5 +15,5 @@ const { src, text, source, delay } = Astro.props;
 
 <figure>
     <Image src={src} alt={text} class="mx-auto"/>
-    <figcaption class="text-center"><AnimatedRevealText delay={delay ?? 0}>{text}{source ? (<> (<Link href={source} target="_blank" class="px-1">Source</Link>)</>) : null}</AnimatedRevealText></figcaption>
+    <figcaption class="text-center"><BoxReveal delay={delay ?? 0}>{text}{source ? (<> (<Link href={source} target="_blank" class="px-1">Source</Link>)</>) : null}</BoxReveal></figcaption>
 </figure>

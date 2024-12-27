@@ -36,7 +36,7 @@ I decided to have a simple setup that I can easily understand and maintain. I ha
 // Here goes server-side / build-time TypeScript code
 import config from "@config";
 import SocialMediaIcon from "./SocialMediaIcon.astro";
-import AnimatedRevealText from "./AnimatedRevealText.astro";
+import BoxReveal from "./BoxReveal.astro";
 import Link from "./Link.astro";
 
 function getCopyrightYears(): string {
@@ -48,9 +48,9 @@ function getCopyrightYears(): string {
 <!-- Here you can define your template -->
 <footer>
     <p class="flex gap-4">
-        {config.social.map((social, i) => <AnimatedRevealText delay={i * 50}><SocialMediaIcon social={social} displayName /></AnimatedRevealText>)}
+        {config.social.map((social, i) => <BoxReveal delay={i * 50}><SocialMediaIcon social={social} displayName /></BoxReveal>)}
     </p>
-    <p><AnimatedRevealText><Link href="/" class="px-2">{config.title}</Link> &copy; {getCopyrightYears()}. All rights reserved.</AnimatedRevealText></p>
+    <p><BoxReveal><Link href="/" class="px-2">{config.title}</Link> &copy; {getCopyrightYears()}. All rights reserved.</BoxReveal></p>
 </footer>
 
 <!-- Here you can style your component (it can support scss, postcss etc.) -->
@@ -96,7 +96,7 @@ const { duration = 1000, delay = 0, class: customClass } = Astro.props;
     import { gsap } from 'gsap';
 
     // Here we define our WebComponent
-    export class AnimatedBlurIn extends HTMLElement {
+    export class BlurIn extends HTMLElement {
 
         // connectedCallback method will be executed once per each instance of the component
         connectedCallback() {
@@ -114,7 +114,7 @@ const { duration = 1000, delay = 0, class: customClass } = Astro.props;
     }
 
     // make sure to define the custom element so it can be used in the HTML. this code will be runned only once per page
-    customElements.define('animated-blurin', AnimatedBlurIn);
+    customElements.define('animated-blurin', BlurIn);
 </script>
 ```
 

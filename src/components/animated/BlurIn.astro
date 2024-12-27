@@ -1,0 +1,48 @@
+---
+import type { AnimationComponentProps } from '@lib/types';
+
+interface Props extends AnimationComponentProps {
+    class?: string;
+}
+
+const { duration = 1000, delay = 0, class: customClass, replayOnEvent } = Astro.props;
+---
+
+<blur-in data-duration={duration}
+         data-delay={delay}
+         class={`${customClass} hide_before_animation`}
+         data-replay-on-event={replayOnEvent}>
+    <slot />
+</blur-in>
+
+<script>
+    import { gsap } from 'gsap';
+
+    export class BlurInComponent extends HTMLElement {
+        connectedCallback() {
+            const duration = parseInt(this.getAttribute('data-duration')!);
+            const delay = parseInt(this.getAttribute('data-delay')!);
+            const replayOnEvent = this.getAttribute('data-replay-on-event') !== null;
+
+            const timeline = gsap
+                .timeline({
+                    scrollTrigger: this
+                })
+                .set(this, { opacity: 1 })
+                .from(this, {
+                    duration: duration / 1000,
+                    delay: delay / 1000,
+                    filter: 'blur(10px)',
+                    ease: 'power2.out'
+                });
+
+            if (replayOnEvent) {
+                window.addEventListener('restartAnimation', () => {
+                    timeline.restart();
+                });
+            }
+        }
+    }
+
+    customElements.define('blur-in', BlurInComponent);
+</script>

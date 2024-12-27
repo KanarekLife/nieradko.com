@@ -11,13 +11,13 @@ import SendIcon from "@assets/icons/send.svg?raw";
 import Button from "@components/Button.astro";
 import GridArticleItem from "@components/GridArticleItem.astro";
 import SocialMediaIcon from "@components/SocialMediaIcon.astro";
+import BoxReveal from "@components/animated/BoxReveal.astro";
+import BlurIn from "@components/animated/BlurIn.astro";
+import NumberCounter from "@components/animated/NumberCounter.astro";
+import TextCarousel from "@components/animated/TextCarousel.astro";
+import TextScramble from "@components/animated/TextScramble.astro";
 import { getGitHubFollowersCount, getTotalCommercialExperience, getSpecializations } from '@lib/KPIService';
-import AnimatedNumberCounter from "@components/AnimatedNumberCounter.astro";
-import AnimatedTextCarousel from "@components/AnimatedTextCarousel.astro";
 import { getArticles } from "@lib/ArticlesService";
-import AnimatedRevealText from "@components/AnimatedRevealText.astro";
-import AnimatedBlurIn from "@components/AnimatedBlurIn.astro";
-import AnimatedMatrixText from "@components/AnimatedMatrixText.astro";
 
 const allArticles = await getArticles(3);
 ---
@@ -25,10 +25,10 @@ const allArticles = await getArticles(3);
 <PageLayout>
 	<div class="px-4 my-32 flex flex-col-reverse justify-center w-full md:flex-row md:justify-around items-center gap-4">
 		<div class="flex flex-col gap-2">
-			<h1 class="text-4xl md:text-5xl"><AnimatedRevealText>Hi, I'm Stanisław Nieradko!</AnimatedRevealText></h1>
-			<p class="text-lg"><AnimatedRevealText><span class="font-semibold">Full-stack software engineer</span> with interest in <span class="font-semibold">DevOps</span>.</AnimatedRevealText></p>
+			<h1 class="text-4xl md:text-5xl"><BoxReveal>Hi, I'm Stanisław Nieradko!</BoxReveal></h1>
+			<p class="text-lg"><BoxReveal><span class="font-semibold">Full-stack software engineer</span> with interest in <span class="font-semibold">DevOps</span>.</BoxReveal></p>
 			<p class="mt-2 flex gap-4">
-				{config.social.map((social, i) => <AnimatedRevealText delay={i * 100}><SocialMediaIcon social={social} /></AnimatedRevealText>)}
+				{config.social.map((social, i) => <BoxReveal delay={i * 100}><SocialMediaIcon social={social} /></BoxReveal>)}
 			</p>
 			<div class="mt-16 flex flex-col md:flex-row gap-4">
 				<Button href="https://github.com/KanarekLife/CV/releases/latest/download/cv.pdf" download class="gap-2 h-12 outline outline-1">
@@ -41,27 +41,27 @@ const allArticles = await getArticles(3);
 				</Button>
 			</div>
 		</div>
-		<AnimatedBlurIn class="rounded-full">
+		<BlurIn class="rounded-full">
 			<Image src={ProfilePicture} width="384" alt="Me (Stanisław Nieradko)" class="rounded-full" />
-		</AnimatedBlurIn>
+		</BlurIn>
 	</div>
 	<div class="px-4 pt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
 		<div class="p-4 flex flex-col justify-between gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-32">
 			<p class="text-sm text-neutral-500 font-semibold">Number of GitHub followers</p>
-			<p class="text-2xl"><AnimatedNumberCounter value={getGitHubFollowersCount()}/></p>
+			<p class="text-2xl"><NumberCounter value={getGitHubFollowersCount()}/></p>
 		</div>
 		<div class="p-4 flex flex-col justify-between gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-32">
 			<p class="text-sm text-neutral-500 font-semibold">Years of commerical experience</p>
-			<p class="text-2xl"><AnimatedNumberCounter value={getTotalCommercialExperience()}/>+</p>
+			<p class="text-2xl"><NumberCounter value={getTotalCommercialExperience()}/>+</p>
 		</div>
 		<div class="p-4 flex flex-col justify-between gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-32">
 			<p class="text-sm text-neutral-500 font-semibold">Skilled at</p>
-			<AnimatedTextCarousel items={getSpecializations()} size="2xl" />
+			<TextCarousel items={getSpecializations()} size="2xl" />
 		</div>
 		<div class="p-4 flex flex-col justify-between gap-3 outline outline-1 outline-neutral-600 rounded-lg max-h-32">
 			<p class="text-sm text-neutral-500 font-semibold">Located at</p>
 			<p class="text-2xl inline-flex gap-2">
-				<AnimatedMatrixText>Gdańsk, Poland 🇵🇱</AnimatedMatrixText>
+				<TextScramble>Gdańsk, Poland 🇵🇱</TextScramble>
 			</p>
 		</div>
 	</div>
@@ -73,7 +73,7 @@ const allArticles = await getArticles(3);
 				{
 					allArticles.map((article, i) => (
 						<li>
-							<AnimatedBlurIn delay={i * 100}><GridArticleItem article={article} /></AnimatedBlurIn>
+							<BlurIn delay={i * 100}><GridArticleItem article={article} /></BlurIn>
 						</li>
 					))
 				}
@@ -82,12 +82,12 @@ const allArticles = await getArticles(3);
 		: null
 	}
 	<div class="px-4 py-32">
-		<p class="text-4xl text-center"><AnimatedRevealText>I love to <span class="font-bold">build</span> and <span class="font-bold">maintain</span> technical solutions to business problems.</AnimatedRevealText></p>
+		<p class="text-4xl text-center"><BoxReveal>I love to <span class="font-bold">build</span> and <span class="font-bold">maintain</span> technical solutions to business problems.</BoxReveal></p>
 	</div>
 	<div class="px-4 pt-16">
-		<h2 class="text-2xl"><AnimatedRevealText>My skills and experiences</AnimatedRevealText></h2>
+		<h2 class="text-2xl"><BoxReveal>My skills and experiences</BoxReveal></h2>
 		<div class="px-4 mt-8 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
-			<AnimatedBlurIn delay={100}>
+			<BlurIn delay={100}>
 				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
 					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={SettingsIcon} /> Backend</h3>
 					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
@@ -97,8 +97,8 @@ const allArticles = await getArticles(3);
 						<li>Experienced in building cloud-native applications (mostly in Azure).</li>
 					</ul>
 				</div>
-			</AnimatedBlurIn>
-			<AnimatedBlurIn delay={200}>
+			</BlurIn>
+			<BlurIn delay={200}>
 				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
 					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={LayoutIcon} /> Frontend</h3>
 					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
@@ -107,8 +107,8 @@ const allArticles = await getArticles(3);
 						<li>Working knowledge of designing and implementing even more complicated app designs.</li>
 					</ul>
 				</div>
-			</AnimatedBlurIn>
-			<AnimatedBlurIn delay={300}>
+			</BlurIn>
+			<BlurIn delay={300}>
 				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
 					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={DatabaseIcon} /> DevOps</h3>
 					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
@@ -117,7 +117,7 @@ const allArticles = await getArticles(3);
 						<li>Experienced in setting up and maintaing CI/CD pipelines in environments like: Azure DevOps, GitHub Actions, FluxCD and more.</li>
 					</ul>
 				</div>
-			</AnimatedBlurIn>
+			</BlurIn>
 		</div>
 	</div>
 </PageLayout>

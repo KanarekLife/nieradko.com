@@ -1,0 +1,53 @@
+---
+import type { AnimationComponentProps } from '@lib/types';
+
+interface Props extends AnimationComponentProps {
+    value: number;
+    startFrom?: number;
+}
+
+const { value, startFrom = 0, duration = 1500, delay = 0, replayOnEvent } = Astro.props;
+---
+
+<number-counter data-start-from={startFrom}
+                data-duration={duration}
+                data-delay={delay}
+                data-replay-on-event={replayOnEvent}
+                class="hide_before_animation">
+    { value }
+</number-counter>
+
+<script>
+    import { gsap, Power1 } from 'gsap';
+
+    class NumberCounterComponent extends HTMLElement {
+        connectedCallback() {
+            const startFrom = parseInt(this.getAttribute('data-start-from')!);
+            const duration = parseInt(this.getAttribute('data-duration')!);
+            const delay = parseInt(this.getAttribute('data-delay')!);
+            const replayOnEvent = this.getAttribute('data-replay-on-event') !== null;
+
+            const timeline = gsap
+                .timeline({
+                    scrollTrigger: this
+                })
+                .set(this, { opacity: 1 })
+                .from(this, {
+                    textContent: startFrom.toString(),
+                    duration: duration / 1000,
+                    delay: delay / 1000,
+                    ease: Power1.easeInOut,
+                    snap: { textContent: 1 },
+                    stagger: 1
+                });
+
+            if (replayOnEvent) {
+                window.addEventListener('restartAnimation', () => {
+                    timeline.restart();
+                });
+            }
+        }
+    }
+
+    customElements.define('number-counter', NumberCounterComponent);
+</script>

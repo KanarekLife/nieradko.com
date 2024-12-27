@@ -1,13 +1,16 @@
 import type { CollectionEntry } from "astro:content";
 
-export type Article = CollectionEntry<'articles'> & {
+type RemarkPluginFrontmatter = {
     remarkPluginFrontmatter: {
         readingTime: string;
     }
 }
 
-export type MeetupAttendance = CollectionEntry<'meetup_attendances'> & {
-    remarkPluginFrontmatter: {
-        readingTime: string;
-    }
+export type Article = CollectionEntry<'articles'> & RemarkPluginFrontmatter;
+export type MeetupAttendance = CollectionEntry<'meetup_attendances'> & RemarkPluginFrontmatter;
+
+export type AnimationComponentProps = {
+    duration?: number;
+    delay?: number;
+    replayOnEvent?: boolean;
 }
