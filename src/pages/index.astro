@@ -1,6 +1,6 @@
 ---
 import PageLayout from "@layouts/PageLayout.astro";
-import ProfilePicture from "@assets/images/profile1.png";
+import ProfilePicture from "@assets/images/profile.png";
 import { Image } from "astro:assets";
 import LayoutIcon from "@assets/icons/layout.svg?raw";
 import SettingsIcon from "@assets/icons/settings.svg?raw";
@@ -82,39 +82,39 @@ const allArticles = await getArticles(3);
 		: null
 	}
 	<div class="px-4 py-32">
-		<p class="text-4xl text-center"><BoxReveal>I love to <span class="font-bold">build</span> and <span class="font-bold">maintain</span> technical solutions to business problems.</BoxReveal></p>
+		<p class="text-4xl text-center"><BoxReveal>I love <span class="font-bold">building</span> and <span class="font-bold">maintaining</span> software projects.</BoxReveal></p>
 	</div>
 	<div class="px-4 pt-16">
-		<h2 class="text-2xl"><BoxReveal>My skills and experiences</BoxReveal></h2>
+		<h2 class="text-2xl"><BoxReveal>Skills</BoxReveal></h2>
 		<div class="px-4 mt-8 grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-4">
 			<BlurIn delay={100}>
 				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
-					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={SettingsIcon} /> Backend</h3>
+					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={SettingsIcon} /> Backend Development</h3>
 					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
-						<li>Commerical experience with .NET Framework 4.8 and .NET 8.</li>
-						<li>Great knowledge of architectural patterns, best practices and system design principles.</li>
-						<li>I worked a lot with T-SQL on Azure SQL and MSSQL databases.</li>
-						<li>Experienced in building cloud-native applications (mostly in Azure).</li>
+						<li>Professional Experience with: .NET (C#, ASP.NET Core, Entity Framework), SQL (MSSQL, Azure SQL)</li>
+						<li>Familiar with: rust, node.js (TypeScript), Java (Spring Boot), Python</li>
+						<li>Good theoretical and practical knowledge of software architecture, design patterns, cloud computing and best practices in software development</li>
 					</ul>
 				</div>
 			</BlurIn>
 			<BlurIn delay={200}>
 				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
-					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={LayoutIcon} /> Frontend</h3>
+					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={LayoutIcon} /> Frontend Development</h3>
 					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
-						<li>Extensive knowledge of basics: HTML, CSS, JS and TypeScript.</li>
-						<li>Experience in working with both modern frameworks like Angular, React, AstroJS, Svelte and legacy AngularJS.</li>
-						<li>Working knowledge of designing and implementing even more complicated app designs.</li>
+						<li>Professional Experience with: Angular, AngularJS</li>
+						<li>Familiar with: React, Svelte, Astro</li>
+						<li>Good knowledge of HTML, CSS, TailwindCSS, TypeScript, modern web development practices and basics of UX/UI design</li>
 					</ul>
 				</div>
 			</BlurIn>
 			<BlurIn delay={300}>
 				<div class="flex flex-col gap-2 p-6 outline outline-1 outline-neutral-500 rounded-lg">
-					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={DatabaseIcon} /> DevOps</h3>
+					<h3 class="text-lg self-center inline-flex items-center gap-2"><Fragment set:html={DatabaseIcon} /> Cloud & DevOps</h3>
 					<ul class="mt-4 list-disc ps-4 flex flex-col gap-1">
-						<li>Good knowledge of Linux and Windows based systems administration (server setup and maintanence).</li>
-						<li>Worked a great ton with docker and kubernetes based systems and solutions. Deployed and maintained basic k8s based solutions.</li>
-						<li>Experienced in setting up and maintaing CI/CD pipelines in environments like: Azure DevOps, GitHub Actions, FluxCD and more.</li>
+						<li>Cloud Platforms: Microsoft Azure (Web Apps, Blob Storage, Service Bus, CosmosDB, etc.)</li>
+						<li>Containerization & Orchestration: Docker, Kubernetes (self-hosted RKE2, AKS), Helm, FluxCD</li>
+						<li>Infrastructure as Code & Automation: Ansible, Terraform, Bash, PowerShell, Python</li>
+						<li>CI/CD & Workflow Automation: Azure DevOps, GitHub with GitHub Actions</li>
 					</ul>
 				</div>
 			</BlurIn>
